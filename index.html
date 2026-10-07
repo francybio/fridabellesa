@@ -70,7 +70,7 @@
 <header class="nav" id="nav">
   <a class="brand" href="#top" aria-label="Frida Bellesa — inicio">Frida <i>Bellesa</i></a>
   <nav class="nav__links" aria-label="Principal">
-    <a href="#carta" data-i18n="nav.carta">Carta</a>
+    <a href="#servicios" data-i18n="nav.carta">Servicios</a>
     <a href="#micropigmentacion" data-i18n="nav.micro">Micropigmentación</a>
     <a href="#laser" data-i18n="nav.laser">Láser</a>
     <a href="#simulador" data-i18n="nav.sim">Simulador</a>
@@ -90,7 +90,7 @@
 
 <div class="menu" id="menu" aria-hidden="true">
   <nav class="menu__links" aria-label="Menú">
-    <a href="#carta" data-i18n="nav.carta">Carta</a>
+    <a href="#servicios" data-i18n="nav.carta">Servicios</a>
     <a href="#micropigmentacion" data-i18n="nav.micro">Micropigmentación</a>
     <a href="#laser" data-i18n="nav.laser">Láser</a>
     <a href="#simulador" data-i18n="nav.sim">Simulador</a>
@@ -119,7 +119,7 @@
       <p class="hero__sub" data-i18n="hero.lead">Diseñamos tu mirada, borramos lo que ya no te representa y cuidamos tu piel con tecnología de última generación.</p>
       <div class="hero__cta">
         <a class="btn btn--laser" href="#" data-wa target="_blank" rel="noopener"><span data-i18n="cta.book">Pedir cita</span></a>
-        <a class="btn btn--line" href="#carta"><span data-i18n="cta.carta">Ver la carta</span></a>
+        <a class="btn btn--line" href="#servicios"><span data-i18n="cta.carta">Ver servicios</span></a>
       </div>
       <p class="hero__hours"><span data-i18n="hero.hours">Lunes a viernes · 10:00 a 19:00</span><span class="status" data-status><i></i><span class="status__text">&nbsp;</span></span></p>
       <p class="hero__hint">
@@ -131,23 +131,25 @@
     <a class="hero__rating" href="#opiniones"><span class="stars" aria-hidden="true">★★★★★</span><b data-num="4.7">4,7</b><span data-i18n="hero.reviews">18 opiniones en Google</span></a>
   </section>
 
-  <!-- ============ CARTA · cápsulas que giran ============ -->
-  <section class="carta" id="carta">
-    <div class="carta__head">
-      <h2 class="h2" data-i18n="c.title">La carta: elige tu tratamiento.</h2>
-      <p class="lead" data-i18n="c.lead">Cada cápsula es un tratamiento y su color indica la técnica. Pasa el cursor por el carrusel para detenerlo y toca una cápsula para ver los detalles.</p>
+  <!-- ============ SERVICIOS · la flor de tratamientos ============ -->
+  <section class="flora" id="servicios">
+    <div class="flora__head">
+      <h2 class="h2"><span data-i18n="c.title">Nuestros <em>servicios</em>.</span></h2>
+      <p class="lead" data-i18n="c.lead">Cada pétalo de la flor es un tratamiento y su color indica la técnica. Pasa el cursor por la flor para detenerla y toca un pétalo para ver los detalles.</p>
+      <ul class="legend" aria-label="Color y técnica">
+        <li><span class="dot fam--laser"></span><span data-i18n="fam.laser">Láser</span></li>
+        <li><span class="dot fam--micro"></span><span data-i18n="fam.micro">Micropigmentación</span></li>
+        <li><span class="dot fam--mirada"></span><span data-i18n="fam.mirada">Mirada y manos</span></li>
+        <li><span class="dot fam--cuidado"></span><span data-i18n="fam.cuidado">Facial y corporal</span></li>
+      </ul>
     </div>
-    <ul class="legend" aria-label="Color y técnica">
-      <li><span class="dot dot--laser"></span><span data-i18n="fam.laser">Láser</span></li>
-      <li><span class="dot dot--micro"></span><span data-i18n="fam.micro">Micropigmentación</span></li>
-      <li><span class="dot dot--mirada"></span><span data-i18n="fam.mirada">Mirada y manos</span></li>
-      <li><span class="dot dot--cuidado"></span><span data-i18n="fam.cuidado">Facial y corporal</span></li>
-    </ul>
-    <div class="belt" id="belt">
-      <div class="belt__track" aria-hidden="true"></div>
-      <div class="belt__center" id="pick" aria-live="polite"></div>
+    <div class="flora__stage" id="flower">
+      <svg class="flora__svg" viewBox="-500 -500 1000 1000" aria-hidden="true"></svg>
+      <div class="flora__btns" role="group" aria-label="Servicios"></div>
+      <div class="flora__core" data-nozap aria-hidden="true"></div>
     </div>
-    <p class="carta__note" data-i18n="c.note">Sesiones y duraciones orientativas: las ajustamos contigo en una valoración personal.</p>
+    <div class="flora__pick" id="pick" aria-live="polite"></div>
+    <p class="flora__note" data-i18n="c.note">Sesiones y duraciones orientativas: las ajustamos contigo en una valoración personal.</p>
   </section>
 
   <!-- ============ MICROPIGMENTACIÓN ============ -->

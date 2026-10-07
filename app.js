@@ -113,7 +113,7 @@ const STR = {
     wa: 'Hola Frida Bellesa, me gustaría pedir cita.',
     waTreat: n => `Hola Frida Bellesa, me interesa: ${n}. ¿Podemos concertar una cita?`,
     waLab: n => `Hola Frida Bellesa, me gustaría pedir una valoración para eliminar un tatuaje (${n}).`,
-    hint: 'Toca una cápsula', book: 'Pedir cita',
+    services: 'Servicios', book: 'Pedir cita',
     lab: {
       before: 'Antes del tratamiento', pct: p => `Aclarado ≈ ${p}%`,
       months: n => `≈ ${n} ${n === 1 ? 'mes' : 'meses'}`, label: 'Tatuaje',
@@ -136,7 +136,7 @@ const STR = {
     wa: 'Hola Frida Bellesa, m’agradaria demanar cita.',
     waTreat: n => `Hola Frida Bellesa, m’interessa: ${n}. Podem concertar una cita?`,
     waLab: n => `Hola Frida Bellesa, m’agradaria demanar una valoració per eliminar un tatuatge (${n}).`,
-    hint: 'Toca una càpsula', book: 'Demanar cita',
+    services: 'Serveis', book: 'Demanar cita',
     lab: {
       before: 'Abans del tractament', pct: p => `Aclarit ≈ ${p}%`,
       months: n => `≈ ${n} ${n === 1 ? 'mes' : 'mesos'}`, label: 'Tatuatge',
@@ -159,7 +159,7 @@ const STR = {
     wa: 'Hi Frida Bellesa, I’d like to book an appointment.',
     waTreat: n => `Hi Frida Bellesa, I’m interested in: ${n}. Could we book an appointment?`,
     waLab: n => `Hi Frida Bellesa, I’d like to book a tattoo removal consultation (${n}).`,
-    hint: 'Tap a capsule', book: 'Book now',
+    services: 'Services', book: 'Book now',
     lab: {
       before: 'Before treatment', pct: p => `≈ ${p}% faded`,
       months: n => `≈ ${n} month${n === 1 ? '' : 's'}`, label: 'Tattoo',
@@ -187,16 +187,16 @@ const DESIGNS = {
    ---------------------------------------------------------- */
 const I18N = {
   ca: {
-    'nav.carta': 'Carta', 'nav.micro': 'Micropigmentació', 'nav.laser': 'Làser', 'nav.sim': 'Simulador', 'nav.studio': 'Estudi', 'nav.visit': 'Visita’ns',
-    'cta.book': 'Demanar cita', 'cta.bookLong': 'Demanar cita per WhatsApp', 'cta.carta': 'Veure la carta', 'cta.sim': 'Provar el simulador', 'cta.route': 'Com arribar-hi',
+    'nav.carta': 'Serveis', 'nav.micro': 'Micropigmentació', 'nav.laser': 'Làser', 'nav.sim': 'Simulador', 'nav.studio': 'Estudi', 'nav.visit': 'Visita’ns',
+    'cta.book': 'Demanar cita', 'cta.bookLong': 'Demanar cita per WhatsApp', 'cta.carta': 'Veure serveis', 'cta.sim': 'Provar el simulador', 'cta.route': 'Com arribar-hi',
     'hero.eyebrow': 'Permanent make up · Làser · Estètica — Lloret de Mar',
     'hero.l1': 'El que estimes, es queda.', 'hero.l2': 'La resta, l’esborrem.',
     'hero.lead': 'Dissenyem la teva mirada, esborrem el que ja no et representa i cuidem la teva pell amb tecnologia d’última generació.',
     'hero.hours': 'Dilluns a divendres · 10:00 a 19:00',
     'hero.hint': 'Fes clic a qualsevol text: el nostre làser l’esborra', 'hero.hintTouch': 'Toca qualsevol text: el nostre làser l’esborra',
     'hero.reviews': '18 opinions a Google',
-    'c.title': 'La carta: tria el teu tractament.',
-    'c.lead': 'Cada càpsula és un tractament i el seu color indica la tècnica. Passa el cursor pel carrusel per aturar-lo i toca una càpsula per veure’n els detalls.',
+    'c.title': 'Els nostres <em>serveis</em>.',
+    'c.lead': 'Cada pètal de la flor és un tractament i el seu color indica la tècnica. Passa el cursor per la flor per aturar-la i toca un pètal per veure’n els detalls.',
     'c.note': 'Sessions i durades orientatives: les ajustem amb tu en una valoració personal.',
     'fam.laser': 'Làser', 'fam.micro': 'Micropigmentació', 'fam.mirada': 'Mirada i mans', 'fam.cuidado': 'Facial i corporal',
     'm.title': 'Micropigmentació',
@@ -225,16 +225,16 @@ const I18N = {
     'foot.tag': 'Permanent make up, làser i estètica'
   },
   en: {
-    'nav.carta': 'Treatments', 'nav.micro': 'Permanent make up', 'nav.laser': 'Laser', 'nav.sim': 'Simulator', 'nav.studio': 'Studio', 'nav.visit': 'Visit us',
-    'cta.book': 'Book now', 'cta.bookLong': 'Book via WhatsApp', 'cta.carta': 'See treatments', 'cta.sim': 'Try the simulator', 'cta.route': 'Get directions',
+    'nav.carta': 'Services', 'nav.micro': 'Permanent make up', 'nav.laser': 'Laser', 'nav.sim': 'Simulator', 'nav.studio': 'Studio', 'nav.visit': 'Visit us',
+    'cta.book': 'Book now', 'cta.bookLong': 'Book via WhatsApp', 'cta.carta': 'See services', 'cta.sim': 'Try the simulator', 'cta.route': 'Get directions',
     'hero.eyebrow': 'Permanent make up · Laser · Aesthetics — Lloret de Mar',
     'hero.l1': 'What you love, stays.', 'hero.l2': 'The rest, we erase.',
     'hero.lead': 'We design your look, erase what no longer represents you and care for your skin with state-of-the-art technology.',
     'hero.hours': 'Monday to Friday · 10:00 to 19:00',
     'hero.hint': 'Click any text: our laser erases it', 'hero.hintTouch': 'Tap any text: our laser erases it',
     'hero.reviews': '18 Google reviews',
-    'c.title': 'The menu: choose your treatment.',
-    'c.lead': 'Each capsule is a treatment and its colour shows the technique. Hover over the carousel to stop it and tap a capsule to see the details.',
+    'c.title': 'Our <em>services</em>.',
+    'c.lead': 'Each petal of the flower is a treatment and its colour shows the technique. Hover over the flower to stop it and tap a petal to see the details.',
     'c.note': 'Sessions and timings are approximate: we fine-tune them with you in a personal consultation.',
     'fam.laser': 'Laser', 'fam.micro': 'Permanent make up', 'fam.mirada': 'Eyes & hands', 'fam.cuidado': 'Face & body',
     'm.title': 'Permanent make up',
@@ -295,7 +295,7 @@ function applyLang(l, init = false) {
   $$('[data-wa]').forEach(a => { a.href = waLink(STR[l].wa); });
   renderStatus();
   renderLab();
-  labelCaps();
+  labelPetals();
   showPick(picked, false);
   Laser.sync();
   if (!init) {
@@ -339,109 +339,178 @@ function renderStatus() {
 setInterval(renderStatus, 60000);
 
 /* ----------------------------------------------------------
-   LA CARTA · cápsulas que recorren la pista
+   SERVICIOS · la flor: cada pétalo es un tratamiento
+   Gira despacio, los pétalos respiran, florece al entrar en
+   pantalla y por detrás caen pétalos sueltos.
    ---------------------------------------------------------- */
-const belt = $('#belt');
-const track = $('.belt__track', belt);
+const NS = 'http://www.w3.org/2000/svg';
+const flower = $('#flower');
+const fSvg = $('.flora__svg', flower);
+const fBtns = $('.flora__btns', flower);
+const fCore = $('.flora__core', flower);
 const pickBox = $('#pick');
-const caps = TREAT.map((t, i) => {
+const STEP = 360 / TREAT.length;
+const PETAL = 'M0 -136 C 62 -200, 94 -330, 0 -490 C -94 -330, -62 -200, 0 -136 Z';
+const VEIN = 'M0 -170 C 7 -260, 7 -380, 0 -455';
+const LEAF = 'M0 -290 C 46 -340, 56 -415, 0 -482 C -56 -415, -46 -340, 0 -290 Z';
+const TONES = { laser: ['#E0305B', '#FF9DB5'], micro: ['#8F5236', '#DDA67F'], mirada: ['#7F6CD6', '#D8CEFF'], cuidado: ['#BFA9A4', '#FCF5F3'] };
+const BTN_R = 330;   // radio (unidades del SVG) donde se coloca el icono de cada pétalo
+const ROT_SPEED = 3; // grados por segundo
+
+const svgEl = (tag, attrs, parent) => {
+  const n = document.createElementNS(NS, tag);
+  Object.keys(attrs).forEach(k => n.setAttribute(k, attrs[k]));
+  if (parent) parent.appendChild(n);
+  return n;
+};
+
+const fDefs = svgEl('defs', {}, fSvg);
+Object.keys(TONES).forEach(f => {
+  const g = svgEl('linearGradient', { id: `pg-${f}`, gradientUnits: 'userSpaceOnUse', x1: 0, y1: -136, x2: 0, y2: -490 }, fDefs);
+  svgEl('stop', { offset: 0, 'stop-color': TONES[f][0] }, g);
+  svgEl('stop', { offset: 1, 'stop-color': TONES[f][1] }, g);
+});
+const leafGrad = svgEl('linearGradient', { id: 'lg', gradientUnits: 'userSpaceOnUse', x1: 0, y1: -290, x2: 0, y2: -482 }, fDefs);
+svgEl('stop', { offset: 0, 'stop-color': '#1E3B30' }, leafGrad);
+svgEl('stop', { offset: 1, 'stop-color': '#4C8063' }, leafGrad);
+const discGrad = svgEl('radialGradient', { id: 'dg', cx: 0, cy: 0, r: 160, gradientUnits: 'userSpaceOnUse' }, fDefs);
+svgEl('stop', { offset: 0, 'stop-color': '#3D2733' }, discGrad);
+svgEl('stop', { offset: 1, 'stop-color': '#160D12' }, discGrad);
+
+// pétalos sueltos que caen por detrás
+const fFall = svgEl('g', {}, fSvg);
+const tones = Object.keys(TONES);
+const falling = Array.from({ length: 9 }, (_, i) => ({
+  el: svgEl('path', { d: PETAL, fill: `url(#pg-${tones[i % 4]})`, opacity: .5 }, fFall),
+  x: -470 + i * 117 + (i % 2 ? 30 : -20), speed: 38 + (i * 13) % 34, off: (i * 397) % 1200,
+  ph: i * 1.7, spin: (i % 2 ? 1 : -1) * (20 + i * 4), s: .09 + (i % 3) * .025
+}));
+
+const fRot = svgEl('g', {}, fSvg);
+const fLeaves = svgEl('g', {}, fRot);
+const leaves = TREAT.map(() => svgEl('path', { d: LEAF, fill: 'url(#lg)' }, fLeaves));
+const fPetals = svgEl('g', {}, fRot);
+const petals = TREAT.map((t, i) => {
+  const g = svgEl('g', { class: 'petal', 'data-i': i }, fPetals);
+  svgEl('path', { class: 'petal__shape', d: PETAL, fill: `url(#pg-${t.fam})` }, g);
+  svgEl('path', { d: VEIN, fill: 'none', stroke: 'rgba(18,11,15,.16)', 'stroke-width': 2.2, 'stroke-linecap': 'round' }, g);
+  return g;
+});
+const fDisc = svgEl('g', {}, fRot);
+svgEl('circle', { r: 150, fill: 'url(#dg)', stroke: 'rgba(232,181,157,.35)', 'stroke-width': 2 }, fDisc);
+for (let i = 0; i < 32; i++) {
+  const a = i / 32 * Math.PI * 2;
+  svgEl('circle', { cx: (Math.cos(a) * 124).toFixed(1), cy: (Math.sin(a) * 124).toFixed(1), r: 4.2, fill: '#E8B59D', opacity: .85 }, fDisc);
+}
+for (let i = 0; i < 20; i++) {
+  const a = (i + .5) / 20 * Math.PI * 2;
+  svgEl('circle', { cx: (Math.cos(a) * 100).toFixed(1), cy: (Math.sin(a) * 100).toFixed(1), r: 2.6, fill: '#FF4D79', opacity: .7 }, fDisc);
+}
+
+const pBtns = TREAT.map((t, i) => {
   const b = document.createElement('button');
   b.type = 'button';
-  b.className = `cap cap--${t.fam}`;
+  b.className = 'petal-btn';
   b.dataset.i = i;
   b.innerHTML = `<i class="ph-light ${t.icon}" aria-hidden="true"></i><small></small>`;
-  belt.appendChild(b);
+  b.addEventListener('mouseenter', () => petals[i].classList.add('is-hover'));
+  b.addEventListener('mouseleave', () => petals[i].classList.remove('is-hover'));
+  fBtns.appendChild(b);
   return b;
 });
-let picked = -1;
-let BW = 0, BH = 0, P = 1, G = { c: 46, horiz: true, r: 1, L: 0 };
-let offset = 0, paused = false, beltVisible = false, beltRunning = false, lastT = 0;
-const SPEED = 42; // px por segundo
 
-function labelCaps() {
-  caps.forEach((b, i) => {
+let picked = 0;
+let angle = 0, fPaused = false, fVisible = false, fRunning = false, fLast = 0, fSize = 0;
+let bloomT0 = motion ? null : -1e9;
+const easeBack = p => { const c1 = 1.5, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
+const bloomAt = (now, delay, dur) => bloomT0 === null ? 0 : easeBack(clamp((now - bloomT0 - delay) / dur));
+
+function drawFlower(now) {
+  const t = now / 1000;
+  const live = motion ? 1 : 0;
+  const k = fSize / 1000, c = fSize / 2;
+  fRot.setAttribute('transform', `rotate(${angle.toFixed(2)})`);
+  fDisc.setAttribute('transform', `scale(${bloomAt(now, 0, 700).toFixed(4)})`);
+  leaves.forEach((p, i) => {
+    const b = bloomAt(now, 450 + i * 40, 1100);
+    p.setAttribute('transform', `rotate(${(i * STEP + STEP / 2 + Math.sin(t * .8 + i) * 2.4 * live).toFixed(2)}) scale(${b.toFixed(4)})`);
+  });
+  petals.forEach((g, i) => {
+    const b = bloomAt(now, 120 + i * 75, 1000);
+    const sway = Math.sin(t * 1.05 + i * .9) * 1.5 * live;
+    const s = b * (i === picked ? 1.06 : 1) * (1 + Math.sin(t * 1.4 + i) * .016 * live);
+    g.setAttribute('transform', `rotate(${(i * STEP + sway).toFixed(2)}) scale(${s.toFixed(4)})`);
+    const th = (angle + i * STEP + sway) * Math.PI / 180;
+    const r = BTN_R * s * k;
+    pBtns[i].style.transform = `translate3d(${(c + r * Math.sin(th)).toFixed(1)}px,${(c - r * Math.cos(th)).toFixed(1)}px,0) scale(${clamp(b).toFixed(3)})`;
+  });
+  falling.forEach(f => {
+    if (!live) { f.el.setAttribute('opacity', 0); return; }
+    const y = ((t * f.speed + f.off) % 1200) - 600;
+    const x = f.x + Math.sin(t * .7 + f.ph) * 34;
+    f.el.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(t * f.spin + f.ph * 40).toFixed(1)}) scale(${f.s})`);
+  });
+}
+function flowerLoop(now) {
+  const dt = fLast ? Math.min(.05, (now - fLast) / 1000) : 0;
+  fLast = now;
+  if (!fPaused) angle = (angle + ROT_SPEED * dt) % 360;
+  drawFlower(now);
+  if (fVisible) requestAnimationFrame(flowerLoop);
+  else { fRunning = false; fLast = 0; }
+}
+function measureFlower() {
+  fSize = flower.clientWidth;
+  drawFlower(performance.now());
+}
+if (motion && 'IntersectionObserver' in window) {
+  new IntersectionObserver(([e]) => {
+    fVisible = e.isIntersecting;
+    if (e.intersectionRatio >= .3 && bloomT0 === null) bloomT0 = performance.now();
+    if (fVisible && !fRunning) { fRunning = true; requestAnimationFrame(flowerLoop); }
+  }, { threshold: [0, .3] }).observe(flower);
+} else {
+  bloomT0 = -1e9;
+}
+flower.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') fPaused = true; });
+flower.addEventListener('pointerleave', () => { fPaused = false; });
+flower.addEventListener('focusin', () => { fPaused = true; });
+flower.addEventListener('focusout', () => { fPaused = false; });
+flower.addEventListener('click', e => {
+  const hit = e.target.closest('.petal-btn, .petal');
+  if (hit) showPick(+hit.getAttribute('data-i'));
+});
+
+function labelPetals() {
+  pBtns.forEach((b, i) => {
     const t = TREAT[i];
     $('small', b).textContent = (t.s || t.n)[lang];
     b.setAttribute('aria-label', `${t.n[lang]} · ${FAM[t.fam][lang]}`);
   });
+  fBtns.setAttribute('aria-label', STR[lang].services);
 }
-function measureBelt() {
-  BW = belt.clientWidth; BH = belt.clientHeight;
-  const band = parseFloat(getComputedStyle(track).borderTopWidth) || 92;
-  const c = band / 2, horiz = BW >= BH;
-  const r = Math.max(1, (horiz ? BH : BW) / 2 - c), L = Math.abs(BW - BH);
-  P = 2 * L + 2 * Math.PI * r;
-  G = { c, horiz, r, L };
-}
-// punto sobre la línea central de la pista (un estadio horizontal o vertical)
-function pointAt(s) {
-  const { c, horiz, r, L } = G;
-  s = ((s % P) + P) % P;
-  const arc = Math.PI * r;
-  if (horiz) {
-    const x0 = BH / 2, x1 = BW - BH / 2;
-    if (s < L) return [x0 + s, c];
-    s -= L;
-    if (s < arc) { const a = -Math.PI / 2 + s / r; return [x1 + Math.cos(a) * r, BH / 2 + Math.sin(a) * r]; }
-    s -= arc;
-    if (s < L) return [x1 - s, BH - c];
-    s -= L;
-    const a = Math.PI / 2 + s / r; return [x0 + Math.cos(a) * r, BH / 2 + Math.sin(a) * r];
-  }
-  const y0 = BW / 2, y1 = BH - BW / 2;
-  if (s < L) return [BW - c, y0 + s];
-  s -= L;
-  if (s < arc) { const a = s / r; return [BW / 2 + Math.cos(a) * r, y1 + Math.sin(a) * r]; }
-  s -= arc;
-  if (s < L) return [c, y1 - s];
-  s -= L;
-  const a = Math.PI + s / r; return [BW / 2 + Math.cos(a) * r, y0 + Math.sin(a) * r];
-}
-function placeCaps() {
-  const gap = P / caps.length;
-  caps.forEach((b, i) => {
-    const [x, y] = pointAt(offset + i * gap);
-    b.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) scale(var(--k))`;
-  });
-}
-function beltLoop(t) {
-  const dt = lastT ? Math.min(.05, (t - lastT) / 1000) : 0;
-  lastT = t;
-  if (!paused && !reduced) offset += SPEED * dt;
-  placeCaps();
-  if (beltVisible) requestAnimationFrame(beltLoop);
-  else { beltRunning = false; lastT = 0; }
-}
-if ('IntersectionObserver' in window) {
-  new IntersectionObserver(([e]) => {
-    beltVisible = e.isIntersecting;
-    if (beltVisible && !beltRunning) { beltRunning = true; requestAnimationFrame(beltLoop); }
-  }, { threshold: .05 }).observe(belt);
-}
-belt.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') paused = true; });
-belt.addEventListener('pointerleave', () => { paused = false; });
-belt.addEventListener('focusin', () => { paused = true; });
-belt.addEventListener('focusout', () => { paused = false; });
-belt.addEventListener('click', e => {
-  const b = e.target.closest('.cap');
-  if (b) showPick(+b.dataset.i);
-});
 
 function showPick(i, animate = true) {
   picked = i;
-  caps.forEach((b, k) => b.classList.toggle('is-picked', k === i));
+  petals.forEach((g, k) => g.classList.toggle('is-on', k === i));
+  pBtns.forEach((b, k) => b.setAttribute('aria-pressed', k === i ? 'true' : 'false'));
   const s = STR[lang];
-  if (i < 0) { pickBox.innerHTML = `<p class="pick__hint">${s.hint}</p>`; return; }
   const t = TREAT[i];
   const n = t.n[lang];
-  pickBox.innerHTML = `<div class="pick__card cap--${t.fam}">
+  fCore.className = `flora__core fam--${t.fam}`;
+  fCore.innerHTML = `<i class="ph-light ${t.icon}"></i><small>${(t.s || t.n)[lang]}</small>`;
+  pickBox.innerHTML = `<div class="pick__card fam--${t.fam}">
     <p class="pick__cat">${FAM[t.fam][lang]}</p>
     <p class="pick__name">${n}</p>
     <p class="pick__desc">${t.d[lang]}</p>
     <p class="pick__meta">${t.m[lang]}</p>
     <a class="btn btn--laser btn--sm" href="${waLink(s.waTreat(n))}" target="_blank" rel="noopener">${s.book}</a>
   </div>`;
-  if (animate && motion) gsap.from('.pick__card > *', { y: 14, opacity: 0, filter: 'blur(4px)', duration: .5, ease: 'expo.out', stagger: .05 });
+  if (!motion) drawFlower(performance.now());
+  if (animate && motion) {
+    gsap.from('.pick__card > *', { y: 14, opacity: 0, filter: 'blur(4px)', duration: .5, ease: 'expo.out', stagger: .05 });
+    gsap.from(fCore.children, { scale: .4, opacity: 0, duration: .6, ease: 'back.out(2)', stagger: .05 });
+  }
 }
 
 /* ----------------------------------------------------------
@@ -584,7 +653,7 @@ function onScroll() {
   ticking = false;
 }
 addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
-addEventListener('resize', () => { measureBelt(); placeCaps(); });
+addEventListener('resize', measureFlower);
 
 /* ----------------------------------------------------------
    INTRO · el telón FRIDA y el corte láser
@@ -657,11 +726,10 @@ function scrollFx() {
   const st = (trigger, start = 'top 85%') => ({ trigger, start, once: true });
 
   $$('main .h2').forEach(h => gsap.from(h, { y: 28, opacity: 0, duration: 1.1, ease: 'expo.out', scrollTrigger: st(h, 'top 88%') }));
-  $$('.lead, .carta__note, .lz__unit, .reviews__note, .score').forEach(el => gsap.from(el, { y: 18, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: st(el, 'top 90%') }));
+  $$('.lead, .flora__note, .lz__unit, .reviews__note, .score').forEach(el => gsap.from(el, { y: 18, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: st(el, 'top 90%') }));
 
-  // la carta
-  gsap.from('.belt__track', { scale: .9, opacity: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: st('#belt', 'top 80%') });
-  gsap.from('.cap', { '--k': 0, duration: .9, ease: 'back.out(1.8)', stagger: .04, scrollTrigger: st('#belt', 'top 75%') });
+  // servicios (la flor florece sola al entrar en pantalla)
+  gsap.from('.flora__pick', { y: 24, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: st('.flora__pick', 'top 92%') });
   gsap.from('.legend li', { y: 10, opacity: 0, duration: .6, ease: 'expo.out', stagger: .05, scrollTrigger: st('.legend') });
 
   // micropigmentación
@@ -709,7 +777,7 @@ function scrollFx() {
   });
 
   // enlace activo en la navegación
-  ['carta', 'micropigmentacion', 'laser', 'simulador', 'estudio', 'visitanos'].forEach(id => {
+  ['servicios', 'micropigmentacion', 'laser', 'simulador', 'estudio', 'visitanos'].forEach(id => {
     const link = $(`.nav__links a[href="#${id}"]`);
     const sec = document.getElementById(id);
     if (!link || !sec) return;
@@ -721,10 +789,9 @@ function scrollFx() {
    INICIO
    ---------------------------------------------------------- */
 scrollTo(0, 0);
-measureBelt();
 applyLang(lang, true);
 setSessions(0, false);
-placeCaps();
+measureFlower();
 
 if (motion && typeof window.Lenis !== 'undefined') {
   lenis = new Lenis({ duration: 1.1, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
@@ -737,6 +804,6 @@ if (motion && typeof window.Lenis !== 'undefined') {
 scrollFx();
 runIntro();
 
-if (document.fonts) document.fonts.ready.then(() => { measureBelt(); placeCaps(); if (hasGSAP) ScrollTrigger.refresh(); });
-addEventListener('load', () => { measureBelt(); placeCaps(); if (hasGSAP) ScrollTrigger.refresh(); });
+if (document.fonts) document.fonts.ready.then(() => { measureFlower(); if (hasGSAP) ScrollTrigger.refresh(); });
+addEventListener('load', () => { measureFlower(); if (hasGSAP) ScrollTrigger.refresh(); });
 })();
