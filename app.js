@@ -200,9 +200,6 @@ const I18N = {
     'std.2.t': 'Tecnologia làser', 'std.2.d': 'Equips actuals per eliminar tatuatges, pèl i taques amb resultats progressius, adaptats a la teva pell.',
     'std.3.t': 'Higiene sense concessions', 'std.3.d': 'Material d’un sol ús, protocols estrictes de neteja i productes de primera qualitat a cada tractament.',
     'std.4.t': 'Com a casa', 'std.4.d': 'Un espai proper i tranquil. Les nostres clientes ho repeteixen: aquí et sents còmoda des del primer minut.',
-    'team.kicker': 'Les mans al darrere',
-    'team.lead': 'Micropigmentació, làser, ungles i estètica amb cura. Qui passa per l’estudi repeteix el mateix: professionalitat, empatia i un tracte que fa que tornis.',
-    'rev.google': 'Opinió a Google', 'team.t1': 'Micropigmentació', 'team.t2': 'Làser', 'team.t3': 'Ungles &amp; pestanyes', 'team.t4': 'Facial &amp; corporal',
     'rev.kicker': 'Opinions', 'rev.count': '18 opinions a Google', 'rev.note': 'Opinions reals publicades a Google Maps (en castellà).',
     'gal.title': 'Fet a <em>Frida</em>',
     'vis.kicker': 'Visita’ns', 'vis.title': 'T’esperem a <em>Lloret</em>.', 'vis.addr': 'Adreça', 'vis.phone': 'Cites', 'vis.onlyWa': 'Només per WhatsApp', 'vis.route': 'Com arribar-hi',
@@ -246,9 +243,6 @@ const I18N = {
     'std.2.t': 'Laser technology', 'std.2.d': 'Modern equipment to remove tattoos, hair and spots with progressive results, tailored to your skin.',
     'std.3.t': 'Uncompromising hygiene', 'std.3.d': 'Single-use materials, strict cleaning protocols and top-quality products in every treatment.',
     'std.4.t': 'Just like home', 'std.4.d': 'A warm, quiet space. Our clients all say it: you feel comfortable from the very first minute.',
-    'team.kicker': 'The hands behind it',
-    'team.lead': 'Permanent make up, laser, nails and aesthetics, done with care. Everyone who visits says the same: professionalism, empathy and a warmth that brings you back.',
-    'rev.google': 'Google review', 'team.t1': 'Permanent make up', 'team.t2': 'Laser', 'team.t3': 'Nails &amp; lashes', 'team.t4': 'Face &amp; body',
     'rev.kicker': 'Reviews', 'rev.count': '18 Google reviews', 'rev.note': 'Real reviews published on Google Maps (in Spanish).',
     'gal.title': 'Made at <em>Frida</em>',
     'vis.kicker': 'Visit us', 'vis.title': 'See you in <em>Lloret</em>.', 'vis.addr': 'Address', 'vis.phone': 'Appointments', 'vis.onlyWa': 'WhatsApp only', 'vis.route': 'Get directions',
@@ -536,7 +530,7 @@ document.addEventListener('click', e => {
 document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
 
 /* ----------------------------------------------------------
-   HERO · el arco que se abre
+   HERO · la ventana que se abre a pantalla completa
    ---------------------------------------------------------- */
 const hero = $('.hero');
 const sticky = $('.hero__sticky');
@@ -552,23 +546,20 @@ let geom = null;
 
 function measureHero() {
   const w = innerWidth, h = sticky.clientHeight, mob = w < 760;
-  const ref = mob ? colL : head;
-  const top = Math.min(ref.offsetTop + ref.offsetHeight + (mob ? 26 : 34), h * .74);
-  const side = mob ? w * .07 : w * .355;
-  const bottom = mob ? 14 : h * .045;
-  geom = { w, h, top, side, bottom, r: (w - side * 2) / 2 };
+  const g = clamp(w * .04, 16, 64); // = --gutter
+  // escritorio: la foto ocupa la mitad derecha; móvil: bajo los botones
+  if (mob) geom = { h, top: Math.min(colL.offsetTop + colL.offsetHeight + 26, h * .74), left: g, right: g, bottom: g, shift: 0 };
+  else geom = { h, top: head.offsetTop, left: w * .5, right: g, bottom: g, shift: w * .26 };
 }
 function renderHero() {
   if (!geom) measureHero();
-  const { w, h, top, side, bottom, r } = geom;
+  const { h, top, left, right, bottom, shift } = geom;
   const i = easeOut(heroState.intro);
   const e = easeIO(clamp(heroState.p / .78));
   const k = 1 - e;
-  const iTop = h - (h - top) * i;
-  const iSide = (w / 2 - 1) - ((w / 2 - 1) - side) * i;
-  const t = iTop * k, sd = iSide * k, b = bottom * k, rad = r * k;
-  media.style.clipPath = `inset(${t.toFixed(1)}px ${sd.toFixed(1)}px ${b.toFixed(1)}px ${sd.toFixed(1)}px round ${rad.toFixed(1)}px ${rad.toFixed(1)}px 0px 0px)`;
-  mediaImg.style.transform = `scale(${(1.2 - .2 * e).toFixed(4)})`;
+  const iTop = (h - bottom) - ((h - bottom) - top) * i;
+  media.style.clipPath = `inset(${(iTop * k).toFixed(1)}px ${(right * k).toFixed(1)}px ${(bottom * k).toFixed(1)}px ${(left * k).toFixed(1)}px)`;
+  mediaImg.style.transform = `translate3d(${(shift * k).toFixed(1)}px,0,0) scale(${(1.2 - .2 * e).toFixed(4)})`;
   shade.style.opacity = e.toFixed(3);
   const fade = clamp(1 - heroState.p * 3.2);
   head.style.opacity = fade.toFixed(3);
@@ -666,11 +657,11 @@ function setupScrollAnimations() {
   });
 
   // parallax de imágenes
-  $$('.pillar__img img, .team__img img').forEach(img => {
+  $$('.pillar__img img').forEach(img => {
     gsap.fromTo(img, { yPercent: -14 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } });
   });
   $$('.pillar__img').forEach(box => {
-    gsap.fromTo(box, { clipPath: 'inset(12% 8% 12% 8% round 22px)' }, { clipPath: 'inset(0% 0% 0% 0% round 22px)', ease: 'none', scrollTrigger: { trigger: box, start: 'top 95%', end: 'top 45%', scrub: true } });
+    gsap.fromTo(box, { clipPath: 'inset(12% 8% 12% 8%)' }, { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none', scrollTrigger: { trigger: box, start: 'top 95%', end: 'top 45%', scrub: true } });
   });
 
   // el simulador hace una "demo" al entrar en pantalla
