@@ -1,5 +1,8 @@
 /* ==========================================================
    FRIDA BELLESA — interacciones
+   Telón FRIDA que corta el láser, carta de cápsulas que gira
+   (el color indica la técnica), simulador de borrado y
+   textos en ES / CA / EN.
    ========================================================== */
 (() => {
 'use strict';
@@ -7,15 +10,17 @@
 const $  = (s, c = document) => c.querySelector(s);
 const $$ = (s, c = document) => [...c.querySelectorAll(s)];
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-const easeIO = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-const easeOut = t => 1 - Math.pow(1 - t, 3);
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const hasGSAP = typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined';
-const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
-if (!hasGSAP || reduced) document.documentElement.classList.add('reduced');
-if (hasGSAP) gsap.registerPlugin(ScrollTrigger);
+const motion = hasGSAP && !reduced;
+if (!motion) document.documentElement.classList.add('reduced');
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+if (hasGSAP) {
+  gsap.registerPlugin(ScrollTrigger);
+  // ScrollTrigger guarda el valor previo ("auto") y lo repone en cada refresh
+  ScrollTrigger.clearScrollMemory('manual');
+}
 const Laser = window.FridaLaser || { fire() {}, burst() {}, snap() {}, sync() {} };
 
 /* ----------------------------------------------------------
@@ -24,6 +29,75 @@ const Laser = window.FridaLaser || { fire() {}, burst() {}, snap() {}, sync() {}
 const WA_NUMBER = '34672874616';
 // minutos desde medianoche · 0 = domingo
 const HOURS = { 0: null, 1: [600, 1140], 2: [600, 1140], 3: [600, 1140], 4: [600, 1140], 5: [600, 1140], 6: null };
+
+const FAM = {
+  laser:   { es: 'Láser', ca: 'Làser', en: 'Laser' },
+  micro:   { es: 'Micropigmentación', ca: 'Micropigmentació', en: 'Permanent make up' },
+  mirada:  { es: 'Mirada y manos', ca: 'Mirada i mans', en: 'Eyes & hands' },
+  cuidado: { es: 'Facial y corporal', ca: 'Facial i corporal', en: 'Face & body' }
+};
+
+const MICRO_META = { es: '1 sesión + retoque a las 4–6 semanas', ca: '1 sessió + retoc a les 4–6 setmanes', en: '1 session + touch-up after 4–6 weeks' };
+const FEW = { es: '≈ 3–5 sesiones', ca: '≈ 3–5 sessions', en: '≈ 3–5 sessions' };
+
+// la carta: cada cápsula es un tratamiento (s = etiqueta corta, n = nombre, d = descripción, m = sesiones o detalle)
+const TREAT = [
+  { fam: 'laser', icon: 'ph-lightning',
+    s: { es: 'Tatuajes', ca: 'Tatuatges', en: 'Tattoos' },
+    n: { es: 'Eliminación de tatuajes', ca: 'Eliminació de tatuatges', en: 'Tattoo removal' },
+    d: { es: 'Tecnología láser que fragmenta la tinta sesión a sesión, para borrar o aclarar antes de un cover-up.', ca: 'Tecnologia làser que fragmenta la tinta sessió a sessió, per esborrar o aclarir abans d’un cover-up.', en: 'Laser technology that breaks up the ink session by session, to remove it or fade it before a cover-up.' },
+    m: { es: '≈ 6–10 sesiones · cada 6–8 semanas', ca: '≈ 6–10 sessions · cada 6–8 setmanes', en: '≈ 6–10 sessions · every 6–8 weeks' } },
+  { fam: 'micro', icon: 'ph-pen-nib',
+    s: { es: 'Cejas', ca: 'Celles', en: 'Brows' },
+    n: { es: 'Cejas pelo a pelo', ca: 'Celles pèl a pèl', en: 'Hair-stroke brows' },
+    d: { es: 'Diseño previo a mano y trazos finos que imitan el pelo natural.', ca: 'Disseny previ a mà i traços fins que imiten el pèl natural.', en: 'A hand-drawn design first, then fine strokes that mimic natural hair.' },
+    m: MICRO_META },
+  { fam: 'mirada', icon: 'ph-eye-closed',
+    n: { es: 'Pestañas', ca: 'Pestanyes', en: 'Lashes' },
+    d: { es: 'Lifting, tinte y extensiones para una mirada intensa sin necesidad de máscara.', ca: 'Lifting, tint i extensions per a una mirada intensa sense necessitat de màscara.', en: 'Lift, tint and extensions for intense eyes without mascara.' },
+    m: { es: 'Lifting · tinte · extensiones', ca: 'Lifting · tint · extensions', en: 'Lift · tint · extensions' } },
+  { fam: 'cuidado', icon: 'ph-drop',
+    s: { es: 'Facial', ca: 'Facial', en: 'Facial' },
+    n: { es: 'Higiene facial', ca: 'Higiene facial', en: 'Deep facial' },
+    d: { es: 'Limpieza profunda para una piel luminosa, con productos de primera calidad.', ca: 'Neteja profunda per a una pell lluminosa, amb productes de primera qualitat.', en: 'A deep cleanse for radiant skin, using top-quality products.' },
+    m: { es: 'Limpieza · hidratación · luz', ca: 'Neteja · hidratació · llum', en: 'Cleanse · hydrate · glow' } },
+  { fam: 'laser', icon: 'ph-feather',
+    s: { es: 'Depilación', ca: 'Depilació', en: 'Hair removal' },
+    n: { es: 'Depilación láser', ca: 'Depilació làser', en: 'Laser hair removal' },
+    d: { es: 'Adiós al vello de forma progresiva y duradera, en cualquier zona del cuerpo.', ca: 'Adeu al pèl de manera progressiva i duradora, a qualsevol zona del cos.', en: 'Say goodbye to unwanted hair, progressively and for the long term, on any area.' },
+    m: { es: '≈ 6–8 sesiones · cada 4–8 semanas', ca: '≈ 6–8 sessions · cada 4–8 setmanes', en: '≈ 6–8 sessions · every 4–8 weeks' } },
+  { fam: 'micro', icon: 'ph-heart',
+    n: { es: 'Labios', ca: 'Llavis', en: 'Lips' },
+    d: { es: 'Color y contorno definidos con un acabado natural que dura.', ca: 'Color i contorn definits amb un acabat natural que dura.', en: 'Defined colour and contour with a natural, lasting finish.' },
+    m: MICRO_META },
+  { fam: 'mirada', icon: 'ph-hand',
+    n: { es: 'Uñas', ca: 'Ungles', en: 'Nails' },
+    d: { es: 'Manicura, pedicura y esmaltado semipermanente con un acabado impecable.', ca: 'Manicura, pedicura i esmaltat semipermanent amb un acabat impecable.', en: 'Manicure, pedicure and gel polish with a flawless finish.' },
+    m: { es: 'Manicura · pedicura · semipermanente', ca: 'Manicura · pedicura · semipermanent', en: 'Manicure · pedicure · gel polish' } },
+  { fam: 'cuidado', icon: 'ph-flower-lotus',
+    s: { es: 'Corporal', ca: 'Corporal', en: 'Body' },
+    n: { es: 'Corporal y masajes', ca: 'Corporal i massatges', en: 'Body & massage' },
+    d: { es: 'Maderoterapia y masajes para cuidar cuerpo y mente.', ca: 'Maderoteràpia i massatges per cuidar cos i ment.', en: 'Wood therapy and massages for body and mind.' },
+    m: { es: 'Maderoterapia · masaje', ca: 'Maderoteràpia · massatge', en: 'Wood therapy · massage' } },
+  { fam: 'laser', icon: 'ph-sparkle',
+    n: { es: 'Carbon Peel', ca: 'Carbon Peel', en: 'Carbon Peel' },
+    d: { es: 'El peeling de Hollywood: poros afinados y una piel uniforme y luminosa desde la primera sesión.', ca: 'El peeling de Hollywood: porus afinats i una pell uniforme i lluminosa des de la primera sessió.', en: 'The Hollywood peel: refined pores and even, glowing skin from the very first session.' },
+    m: FEW },
+  { fam: 'micro', icon: 'ph-eye',
+    n: { es: 'Eyeliner', ca: 'Eyeliner', en: 'Eyeliner' },
+    d: { es: 'Una línea fina que realza tu mirada desde que te despiertas.', ca: 'Una línia fina que realça la teva mirada des que et despertes.', en: 'A fine line that defines your eyes from the moment you wake up.' },
+    m: MICRO_META },
+  { fam: 'laser', icon: 'ph-sun',
+    s: { es: 'Manchas', ca: 'Taques', en: 'Spots' },
+    n: { es: 'Manchas', ca: 'Taques', en: 'Pigmentation' },
+    d: { es: 'Láser para atenuar manchas solares y de la edad y devolver a tu piel un tono homogéneo.', ca: 'Làser per atenuar taques solars i de l’edat i retornar a la teva pell un to homogeni.', en: 'Laser to fade sun and age spots and bring back an even skin tone.' },
+    m: FEW },
+  { fam: 'micro', icon: 'ph-dots-nine',
+    s: { es: 'Trico', ca: 'Trico', en: 'Scalp' },
+    n: { es: 'Tricopigmentación', ca: 'Tricopigmentació', en: 'Scalp pigmentation' },
+    d: { es: 'Efecto de densidad o de cabello rasurado para disimular las zonas con menos pelo.', ca: 'Efecte de densitat o de cabell rapat per dissimular les zones amb menys cabell.', en: 'A density or shaved-look effect to conceal thinning areas.' },
+    m: { es: 'Sesiones según valoración', ca: 'Sessions segons valoració', en: 'Sessions set after assessment' } }
+];
 
 /* ----------------------------------------------------------
    TEXTOS DINÁMICOS
@@ -37,8 +111,9 @@ const STR = {
     closedDay: (d, t) => `Cerrado · abre el ${d.toLowerCase()} a las ${t}`,
     closed: 'Cerrado',
     wa: 'Hola Frida Bellesa, me gustaría pedir cita.',
+    waTreat: n => `Hola Frida Bellesa, me interesa: ${n}. ¿Podemos concertar una cita?`,
     waLab: n => `Hola Frida Bellesa, me gustaría pedir una valoración para eliminar un tatuaje (${n}).`,
-    waPlan: (n, sk, f) => `Hola Frida Bellesa, me interesa el ${n}${sk ? ` (piel ${sk.toLowerCase()})` : ''}${f ? ` · ${f}` : ''}. ¿Podemos concertar una valoración?`,
+    hint: 'Toca una cápsula', book: 'Pedir cita',
     lab: {
       before: 'Antes del tratamiento', pct: p => `Aclarado ≈ ${p}%`,
       months: n => `≈ ${n} ${n === 1 ? 'mes' : 'meses'}`, label: 'Tatuaje',
@@ -49,11 +124,7 @@ const STR = {
         'Quedan restos dispersos: el momento ideal si buscas un cover-up.',
         'Piel prácticamente limpia. Los colores como el verde son los más resistentes.'
       ]
-    },
-    rEmpty: { k: 'Tu plan', n: 'Responde y lo creamos.', d: 'Elige una opción en cada paso: tu propuesta aparece aquí al instante.' },
-    rHint: 'Ahora dinos qué te gustaría conseguir (paso 01).',
-    rKicker: 'Tu plan a medida',
-    noFirst: 'Dinos si es tu primera vez para afinar la propuesta.'
+    }
   },
   ca: {
     days: ['Diumenge', 'Dilluns', 'Dimarts', 'Dimecres', 'Dijous', 'Divendres', 'Dissabte'],
@@ -63,8 +134,9 @@ const STR = {
     closedDay: (d, t) => `Tancat · obre ${d.toLowerCase()} a les ${t}`,
     closed: 'Tancat',
     wa: 'Hola Frida Bellesa, m’agradaria demanar cita.',
+    waTreat: n => `Hola Frida Bellesa, m’interessa: ${n}. Podem concertar una cita?`,
     waLab: n => `Hola Frida Bellesa, m’agradaria demanar una valoració per eliminar un tatuatge (${n}).`,
-    waPlan: (n, sk, f) => `Hola Frida Bellesa, m’interessa el ${n}${sk ? ` (pell ${sk.toLowerCase()})` : ''}${f ? ` · ${f}` : ''}. Podem concertar una valoració?`,
+    hint: 'Toca una càpsula', book: 'Demanar cita',
     lab: {
       before: 'Abans del tractament', pct: p => `Aclarit ≈ ${p}%`,
       months: n => `≈ ${n} ${n === 1 ? 'mes' : 'mesos'}`, label: 'Tatuatge',
@@ -75,11 +147,7 @@ const STR = {
         'Queden restes disperses: el moment ideal si busques un cover-up.',
         'Pell pràcticament neta. Els colors com el verd són els més resistents.'
       ]
-    },
-    rEmpty: { k: 'El teu pla', n: 'Respon i el creem.', d: 'Tria una opció a cada pas: la teva proposta apareix aquí a l’instant.' },
-    rHint: 'Ara digues-nos què t’agradaria aconseguir (pas 01).',
-    rKicker: 'El teu pla a mida',
-    noFirst: 'Digues-nos si és la primera vegada per afinar la proposta.'
+    }
   },
   en: {
     days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
@@ -89,8 +157,9 @@ const STR = {
     closedDay: (d, t) => `Closed · opens ${d} at ${t}`,
     closed: 'Closed',
     wa: 'Hi Frida Bellesa, I’d like to book an appointment.',
+    waTreat: n => `Hi Frida Bellesa, I’m interested in: ${n}. Could we book an appointment?`,
     waLab: n => `Hi Frida Bellesa, I’d like to book a tattoo removal consultation (${n}).`,
-    waPlan: (n, sk, f) => `Hi Frida Bellesa, I’m interested in the ${n}${sk ? ` (${sk.toLowerCase()} skin)` : ''}${f ? ` · ${f}` : ''}. Could we arrange a consultation?`,
+    hint: 'Tap a capsule', book: 'Book now',
     lab: {
       before: 'Before treatment', pct: p => `≈ ${p}% faded`,
       months: n => `≈ ${n} month${n === 1 ? '' : 's'}`, label: 'Tattoo',
@@ -101,11 +170,7 @@ const STR = {
         'Only scattered traces remain: the perfect moment for a cover-up.',
         'Skin practically clear. Colours such as green are the most stubborn.'
       ]
-    },
-    rEmpty: { k: 'Your plan', n: 'Answer and we’ll build it.', d: 'Pick one option in each step: your proposal appears here instantly.' },
-    rHint: 'Now tell us what you’d like to achieve (step 01).',
-    rKicker: 'Your tailored plan',
-    noFirst: 'Tell us if it’s your first time to fine-tune the proposal.'
+    }
   }
 };
 
@@ -117,136 +182,85 @@ const DESIGNS = {
   mandala: { w: { k: 1 }, burst: ['#16100f'] }
 };
 
-const PLANS = {
-  borrar: {
-    es: { n: 'Plan Borrado Láser', d: 'Fragmentamos la tinta sesión a sesión hasta borrarla o aclararla lo suficiente para un cover-up.', s: ['Valoración del tatuaje: tinta, tamaño y antigüedad', 'Prueba en una zona pequeña', 'Sesiones láser cada 6–8 semanas', 'Cuidados posteriores y seguimiento'], t: ['Láser', 'Progresivo', 'Cover-up'], m: '≈ 6–10 sesiones según tinta y piel' },
-    ca: { n: 'Pla Esborrat Làser', d: 'Fragmentem la tinta sessió a sessió fins a esborrar-la o aclarir-la prou per a un cover-up.', s: ['Valoració del tatuatge: tinta, mida i antiguitat', 'Prova en una zona petita', 'Sessions làser cada 6–8 setmanes', 'Cures posteriors i seguiment'], t: ['Làser', 'Progressiu', 'Cover-up'], m: '≈ 6–10 sessions segons tinta i pell' },
-    en: { n: 'Laser Removal Plan', d: 'We break up the ink session by session until it is gone, or light enough for a cover-up.', s: ['Tattoo assessment: ink, size and age', 'Patch test on a small area', 'Laser sessions every 6–8 weeks', 'Aftercare and follow-up'], t: ['Laser', 'Progressive', 'Cover-up'], m: '≈ 6–10 sessions depending on ink and skin' }
-  },
-  cejas: {
-    es: { n: 'Plan Micropigmentación', d: 'Un diseño a medida de tu rostro para despertarte cada día con cejas, labios o eyeliner perfectos.', s: ['Visagismo y diseño previo a mano', 'Elección del pigmento según tu tono', 'Sesión de micropigmentación', 'Retoque de perfeccionamiento a las 4–6 semanas'], t: ['Natural', 'Larga duración', 'A medida'], m: '1 sesión + retoque' },
-    ca: { n: 'Pla Micropigmentació', d: 'Un disseny a mida del teu rostre per despertar-te cada dia amb celles, llavis o eyeliner perfectes.', s: ['Visagisme i disseny previ a mà', 'Elecció del pigment segons el teu to', 'Sessió de micropigmentació', 'Retoc de perfeccionament a les 4–6 setmanes'], t: ['Natural', 'Llarga durada', 'A mida'], m: '1 sessió + retoc' },
-    en: { n: 'Permanent Make Up Plan', d: 'A design tailored to your face, so you wake up every day with perfect brows, lips or eyeliner.', s: ['Face mapping and hand-drawn design', 'Pigment chosen for your skin tone', 'Micropigmentation session', 'Perfecting touch-up after 4–6 weeks'], t: ['Natural', 'Long-lasting', 'Bespoke'], m: '1 session + touch-up' }
-  },
-  vello: {
-    es: { n: 'Plan Piel Suave', d: 'Depilación láser progresiva y duradera, adaptada a tu fototipo y a cada zona.', s: ['Estudio de tu fototipo y la zona', 'Ajuste de parámetros y prueba', 'Sesiones cada 4–8 semanas', 'Mantenimiento ocasional'], t: ['Duradero', 'Todas las zonas', 'Confort'], m: '≈ 6–8 sesiones' },
-    ca: { n: 'Pla Pell Suau', d: 'Depilació làser progressiva i duradora, adaptada al teu fototip i a cada zona.', s: ['Estudi del teu fototip i la zona', 'Ajust de paràmetres i prova', 'Sessions cada 4–8 setmanes', 'Manteniment ocasional'], t: ['Durador', 'Totes les zones', 'Confort'], m: '≈ 6–8 sessions' },
-    en: { n: 'Smooth Skin Plan', d: 'Progressive, long-lasting laser hair removal tailored to your skin type and each area.', s: ['Skin type and area assessment', 'Parameter setting and patch test', 'Sessions every 4–8 weeks', 'Occasional maintenance'], t: ['Long-lasting', 'All areas', 'Comfort'], m: '≈ 6–8 sessions' }
-  },
-  piel: {
-    es: { n: 'Plan Luz & Tono', d: 'Carbon Peel y láser para manchas: una piel más uniforme, luminosa y con los poros afinados.', s: ['Análisis de tu piel', 'Higiene facial profunda', 'Carbon Peel o láser para manchas', 'Rutina de cuidado en casa'], t: ['Luminosidad', 'Poros', 'Tono uniforme'], m: '≈ 3–5 sesiones' },
-    ca: { n: 'Pla Llum & To', d: 'Carbon Peel i làser per a taques: una pell més uniforme, lluminosa i amb els porus afinats.', s: ['Anàlisi de la teva pell', 'Higiene facial profunda', 'Carbon Peel o làser per a taques', 'Rutina de cura a casa'], t: ['Lluminositat', 'Porus', 'To uniforme'], m: '≈ 3–5 sessions' },
-    en: { n: 'Glow & Tone Plan', d: 'Carbon Peel and laser for pigmentation: more even, radiant skin with refined pores.', s: ['Skin analysis', 'Deep facial cleansing', 'Carbon Peel or pigmentation laser', 'At-home care routine'], t: ['Radiance', 'Pores', 'Even tone'], m: '≈ 3–5 sessions' }
-  },
-  detalles: {
-    es: { n: 'Plan Detalles', d: 'Pestañas y uñas impecables: los pequeños detalles que transforman tu imagen.', s: ['Lifting o extensiones de pestañas', 'Tinte y acabado', 'Manicura y pedicura', 'Esmaltado semipermanente'], t: ['Mirada', 'Manos', 'Larga duración'], m: '≈ 60–120 min' },
-    ca: { n: 'Pla Detalls', d: 'Pestanyes i ungles impecables: els petits detalls que transformen la teva imatge.', s: ['Lifting o extensions de pestanyes', 'Tint i acabat', 'Manicura i pedicura', 'Esmaltat semipermanent'], t: ['Mirada', 'Mans', 'Llarga durada'], m: '≈ 60–120 min' },
-    en: { n: 'Details Plan', d: 'Flawless lashes and nails: the small details that transform your look.', s: ['Lash lift or extensions', 'Tint and finish', 'Manicure and pedicure', 'Gel polish'], t: ['Eyes', 'Hands', 'Long-lasting'], m: '≈ 60–120 min' }
-  }
-};
-
-const SKIN_NOTES = {
-  clara:    { es: 'Para piel clara: parámetros suaves y protección solar extra los días siguientes.', ca: 'Per a pell clara: paràmetres suaus i protecció solar extra els dies següents.', en: 'For fair skin: gentle settings and extra sun protection in the days after.' },
-  media:    { es: 'Para piel media: ajustamos la energía para un resultado eficaz y seguro.', ca: 'Per a pell mitjana: ajustem l’energia per a un resultat eficaç i segur.', en: 'For medium skin: we adjust the energy for an effective, safe result.' },
-  morena:   { es: 'Para piel morena u oscura: parámetros específicos que respetan tu fototipo.', ca: 'Per a pell morena o fosca: paràmetres específics que respecten el teu fototip.', en: 'For olive or dark skin: specific settings that respect your skin type.' },
-  sensible: { es: 'Para piel sensible: prueba previa y un ritmo más pausado, para tu tranquilidad.', ca: 'Per a pell sensible: prova prèvia i un ritme més pausat, per a la teva tranquil·litat.', en: 'For sensitive skin: a patch test first and a gentler pace, for peace of mind.' }
-};
-
-const FIRST = {
-  primera:    { es: { n: 'Primera visita', x: 'Empezamos con una valoración personal' }, ca: { n: 'Primera visita', x: 'Comencem amb una valoració personal' }, en: { n: 'First visit', x: 'We start with a personal consultation' } },
-  retoque:    { es: { n: 'Retoque', x: 'Revisamos y reavivamos el trabajo' }, ca: { n: 'Retoc', x: 'Revisem i reavivem el treball' }, en: { n: 'Touch-up', x: 'We review and refresh the work' } },
-  correccion: { es: { n: 'Corrección', x: 'Estudio del trabajo anterior y aclarado láser si hace falta' }, ca: { n: 'Correcció', x: 'Estudi del treball anterior i aclariment làser si cal' }, en: { n: 'Correction', x: 'Review of previous work, with laser fading if needed' } }
-};
-
 /* ----------------------------------------------------------
    TRADUCCIONES DE LA PÁGINA (ES = HTML original)
    ---------------------------------------------------------- */
 const I18N = {
   ca: {
-    'nav.services': 'Serveis', 'nav.laser': 'Làser', 'nav.plan': 'El teu pla', 'nav.studio': 'L’estudi', 'nav.reviews': 'Opinions', 'nav.visit': 'Visita’ns',
-    'cta.book': 'Demanar cita', 'cta.bookLong': 'Demanar cita per WhatsApp', 'cta.lab': 'Simulador làser', 'cta.plan': 'Crea el teu pla',
+    'nav.carta': 'Carta', 'nav.micro': 'Micropigmentació', 'nav.laser': 'Làser', 'nav.sim': 'Simulador', 'nav.studio': 'Estudi', 'nav.visit': 'Visita’ns',
+    'cta.book': 'Demanar cita', 'cta.bookLong': 'Demanar cita per WhatsApp', 'cta.carta': 'Veure la carta', 'cta.sim': 'Provar el simulador', 'cta.route': 'Com arribar-hi',
     'hero.eyebrow': 'Permanent make up · Làser · Estètica — Lloret de Mar',
     'hero.l1': 'El que estimes, es queda.', 'hero.l2': 'La resta, l’esborrem.',
-    'hero.hint': 'Fes clic a qualsevol text: el nostre làser l’esborra', 'hero.hintTouch': 'Toca qualsevol text: el nostre làser l’esborra',
     'hero.lead': 'Dissenyem la teva mirada, esborrem el que ja no et representa i cuidem la teva pell amb tecnologia d’última generació.',
-    'hero.reviews': '· 18 opinions a Google', 'hero.cap1': 'Làser, micropigmentació', 'hero.cap2': 'i bellesa que es queda.',
-    'man.kicker': 'La nostra filosofia',
-    'man.text': 'A Frida creiem que la teva pell explica la teva història, i que tu decideixes com s’escriu. Dissenyem celles, llavis i mirades que t’acompanyen cada matí, i amb tecnologia làser esborrem el que ja no et representa. Tot en un estudi proper, on et sentiràs com a casa.',
-    'man.sign': 'Lloret de Mar · Costa Brava',
-    'svc.kicker': 'Serveis', 'svc.title': 'Tècnica, làser i <em>detall</em>.', 'svc.hint': 'Llisca per descobrir',
-    'svc.1.t': 'Eliminació de tatuatges', 'svc.1.d': 'Tecnologia làser que fragmenta la tinta sessió a sessió, per esborrar o aclarir abans d’un cover-up.',
-    'svc.2.t': 'Micropigmentació', 'svc.2.d': 'Celles pèl a pèl, llavis i eyeliner amb un disseny pensat per al teu rostre.',
-    'svc.3.t': 'Depilació làser', 'svc.3.d': 'Adeu al pèl de manera progressiva i duradora, a qualsevol zona del cos.',
-    'svc.4.t': 'Carbon Peel', 'svc.4.d': 'El peeling de Hollywood: porus afinats i una pell uniforme i lluminosa des de la primera sessió.',
-    'svc.5.t': 'Taques', 'svc.5.d': 'Làser per atenuar taques solars i de l’edat i retornar a la teva pell un to homogeni.',
-    'svc.6.t': 'Pestanyes', 'svc.6.d': 'Lifting, tint i extensions per a una mirada intensa sense necessitat de màscara.',
-    'svc.7.t': 'Ungles', 'svc.7.d': 'Manicura, pedicura i esmaltat semipermanent amb un acabat impecable.',
-    'svc.8.t': 'Tricopigmentació', 'svc.8.d': 'Efecte de densitat o de cabell rapat per dissimular les zones amb menys cabell.',
-    'svc.9.t': 'Facial &amp; corporal', 'svc.9.d': 'Higiene facial profunda, maderoteràpia i massatges per cuidar cos i ment.',
-    'svc.end.t': 'No saps què necessites?', 'svc.end.d': 'Respon tres preguntes i et proposem un pla a la teva mida.',
-    'lab.hold': 'Mantén premut per veure l’abans', 'lab.badge': 'Simulació orientativa', 'lab.tip': 'Dispara sobre el tatuatge',
-    'lab.kicker': 'Simulador làser', 'lab.title': 'Mira com s’<em>esvaeix</em>.',
+    'hero.hours': 'Dilluns a divendres · 10:00 a 19:00',
+    'hero.hint': 'Fes clic a qualsevol text: el nostre làser l’esborra', 'hero.hintTouch': 'Toca qualsevol text: el nostre làser l’esborra',
+    'hero.reviews': '18 opinions a Google',
+    'c.title': 'La carta: tria el teu tractament.',
+    'c.lead': 'Cada càpsula és un tractament i el seu color indica la tècnica. Passa el cursor pel carrusel per aturar-lo i toca una càpsula per veure’n els detalls.',
+    'c.note': 'Sessions i durades orientatives: les ajustem amb tu en una valoració personal.',
+    'fam.laser': 'Làser', 'fam.micro': 'Micropigmentació', 'fam.mirada': 'Mirada i mans', 'fam.cuidado': 'Facial i corporal',
+    'm.title': 'Micropigmentació',
+    'm.lead': 'Dibuixem cada traç sobre el teu rostre abans de començar. Mesurem, proposem i només pigmentem quan t’encanta.',
+    'm.1.t': 'Celles pèl a pèl', 'm.1.d': 'Disseny previ a mà i traços fins que imiten el pèl natural.',
+    'm.2.t': 'Llavis', 'm.2.d': 'Color i contorn definits amb un acabat natural que dura.',
+    'm.3.t': 'Eyeliner', 'm.3.d': 'Una línia fina que realça la teva mirada des que et despertes.',
+    'm.meta': '1 sessió + retoc',
+    'l.title': 'Làser, sessió a sessió.',
+    'l.lead': 'Esborrem tatuatges, eliminem el pèl i unifiquem el to de la teva pell amb paràmetres adaptats al teu fototip.',
+    'svc.1.t': 'Eliminació de tatuatges', 'svc.3.t': 'Depilació làser', 'svc.4.t': 'Carbon Peel', 'svc.5.t': 'Taques',
+    'l.unit': 'Nombre orientatiu de sessions: el confirmem a la teva valoració.',
+    'lab.title': 'Mira com s’<em>esvaeix</em>.',
     'lab.lead': 'Cada sessió fragmenta la tinta en partícules diminutes que el teu cos elimina de manera natural. Tria un tatuatge, mou el control o dispara directament sobre la pell.',
     'lab.d1': 'Viva la vida', 'lab.d1s': 'Lettering · negre', 'lab.d2': 'Sagrat cor', 'lab.d2s': 'Color · tradicional', 'lab.d3': 'Mandala', 'lab.d3s': 'Línia fina · dotwork',
+    'lab.hold': 'Mantén premut per veure l’abans', 'lab.badge': 'Simulació orientativa', 'lab.tip': 'Dispara sobre el tatuatge',
     'lab.sessions': 'Sessions', 'lab.f1': 'Interval', 'lab.f1v': '6–8 setmanes', 'lab.f2': 'Per sessió', 'lab.f2v': '10–30 min', 'lab.f3': 'Temps total', 'lab.cta': 'Demana la teva valoració',
-    'plan.kicker': 'El teu pla', 'plan.title': 'Crea el teu <em>pla</em> en tres passos.',
-    'plan.lead': 'Explica’ns què busques i et proposem un pla orientatiu que afinarem amb tu en una valoració personal.',
-    'plan.q1': 'Què t’agradaria aconseguir?', 'plan.goal.borrar': 'Esborrar o aclarir un tatuatge', 'plan.goal.cejas': 'Celles, llavis o eyeliner', 'plan.goal.vello': 'Pell lliure de pèl', 'plan.goal.piel': 'Pell lluminosa i sense taques', 'plan.goal.detalles': 'Pestanyes i ungles impecables',
-    'plan.q2': 'Com és la teva pell?', 'plan.skin.clara': 'Clara', 'plan.skin.media': 'Mitjana', 'plan.skin.morena': 'Morena o fosca', 'plan.skin.sensible': 'Sensible',
-    'plan.q3': 'És la primera vegada?', 'plan.first.primera': 'Sí, és la primera vegada', 'plan.first.retoque': 'Busco un retoc', 'plan.first.correccion': 'Corregir un treball anterior',
-    'plan.cta': 'Reservar valoració',
-    'std.kicker': 'L’estudi', 'std.title': 'Precisió tècnica, <em>tracte de casa</em>.',
+    'std.title': 'Precisió tècnica, <em>tracte de casa</em>.',
+    'man.text': 'A Frida creiem que la teva pell explica la teva història, i que tu decideixes com s’escriu. Dissenyem celles, llavis i mirades que t’acompanyen cada matí, i amb tecnologia làser esborrem el que ja no et representa. Tot en un estudi proper, on et sentiràs com a casa.',
     'std.1.t': 'Disseny a mida', 'std.1.d': 'Cada cella, cada llavi i cada línia es dibuixa abans sobre el teu rostre. Mesurem, proposem i només comencem quan t’encanta.',
     'std.2.t': 'Tecnologia làser', 'std.2.d': 'Equips actuals per eliminar tatuatges, pèl i taques amb resultats progressius, adaptats a la teva pell.',
     'std.3.t': 'Higiene sense concessions', 'std.3.d': 'Material d’un sol ús, protocols estrictes de neteja i productes de primera qualitat a cada tractament.',
     'std.4.t': 'Com a casa', 'std.4.d': 'Un espai proper i tranquil. Les nostres clientes ho repeteixen: aquí et sents còmoda des del primer minut.',
-    'rev.kicker': 'Opinions', 'rev.count': '18 opinions a Google', 'rev.note': 'Opinions reals publicades a Google Maps (en castellà).',
-    'gal.title': 'Fet a <em>Frida</em>',
-    'vis.kicker': 'Visita’ns', 'vis.title': 'T’esperem a <em>Lloret</em>.', 'vis.addr': 'Adreça', 'vis.phone': 'Cites', 'vis.onlyWa': 'Només per WhatsApp', 'vis.route': 'Com arribar-hi',
-    'foot.small': 'Comencem?', 'foot.big': 'Demana la teva cita', 'foot.tag': 'Permanent make up, làser i estètica'
+    'rev.title': 'Clientes que hi tornen.', 'rev.count': '18 opinions a Google', 'rev.note': 'Opinions reals publicades a Google Maps (en castellà).',
+    'v.h': 'Horari', 'v.h.v': 'Dilluns a divendres, de 10:00 a 19:00<br>Dissabte i diumenge, tancat', 'v.r': 'Cites', 'v.only': 'Només per WhatsApp', 'v.a': 'Adreça',
+    'foot.tag': 'Permanent make up, làser i estètica'
   },
   en: {
-    'nav.services': 'Services', 'nav.laser': 'Laser', 'nav.plan': 'Your plan', 'nav.studio': 'The studio', 'nav.reviews': 'Reviews', 'nav.visit': 'Visit us',
-    'cta.book': 'Book now', 'cta.bookLong': 'Book via WhatsApp', 'cta.lab': 'Laser simulator', 'cta.plan': 'Build your plan',
+    'nav.carta': 'Treatments', 'nav.micro': 'Permanent make up', 'nav.laser': 'Laser', 'nav.sim': 'Simulator', 'nav.studio': 'Studio', 'nav.visit': 'Visit us',
+    'cta.book': 'Book now', 'cta.bookLong': 'Book via WhatsApp', 'cta.carta': 'See treatments', 'cta.sim': 'Try the simulator', 'cta.route': 'Get directions',
     'hero.eyebrow': 'Permanent make up · Laser · Aesthetics — Lloret de Mar',
     'hero.l1': 'What you love, stays.', 'hero.l2': 'The rest, we erase.',
-    'hero.hint': 'Click any text: our laser erases it', 'hero.hintTouch': 'Tap any text: our laser erases it',
     'hero.lead': 'We design your look, erase what no longer represents you and care for your skin with state-of-the-art technology.',
-    'hero.reviews': '· 18 Google reviews', 'hero.cap1': 'Laser, permanent make up', 'hero.cap2': 'and beauty that stays.',
-    'man.kicker': 'Our philosophy',
-    'man.text': 'At Frida we believe your skin tells your story, and that you decide how it is written. We design brows, lips and eyes that are with you every morning, and with laser technology we erase what no longer represents you. All in a warm studio where you will feel at home.',
-    'man.sign': 'Lloret de Mar · Costa Brava',
-    'svc.kicker': 'Services', 'svc.title': 'Technique, laser and <em>detail</em>.', 'svc.hint': 'Scroll to explore',
-    'svc.1.t': 'Tattoo removal', 'svc.1.d': 'Laser technology that breaks up the ink session by session, to remove it or fade it before a cover-up.',
-    'svc.2.t': 'Permanent make up', 'svc.2.d': 'Hair-stroke brows, lips and eyeliner, designed around your face.',
-    'svc.3.t': 'Laser hair removal', 'svc.3.d': 'Say goodbye to unwanted hair, progressively and for the long term, on any area.',
-    'svc.4.t': 'Carbon Peel', 'svc.4.d': 'The Hollywood peel: refined pores and even, glowing skin from the very first session.',
-    'svc.5.t': 'Pigmentation', 'svc.5.d': 'Laser to fade sun and age spots and bring back an even skin tone.',
-    'svc.6.t': 'Lashes', 'svc.6.d': 'Lift, tint and extensions for intense eyes without mascara.',
-    'svc.7.t': 'Nails', 'svc.7.d': 'Manicure, pedicure and gel polish with a flawless finish.',
-    'svc.8.t': 'Scalp pigmentation', 'svc.8.d': 'A density or shaved-look effect to conceal thinning areas.',
-    'svc.9.t': 'Face &amp; body', 'svc.9.d': 'Deep facial cleansing, wood therapy and massages for body and mind.',
-    'svc.end.t': 'Not sure what you need?', 'svc.end.d': 'Answer three questions and we’ll suggest a plan made for you.',
-    'lab.hold': 'Press and hold to see the before', 'lab.badge': 'Approximate preview', 'lab.tip': 'Fire at the tattoo',
-    'lab.kicker': 'Laser simulator', 'lab.title': 'Watch it <em>fade</em>.',
+    'hero.hours': 'Monday to Friday · 10:00 to 19:00',
+    'hero.hint': 'Click any text: our laser erases it', 'hero.hintTouch': 'Tap any text: our laser erases it',
+    'hero.reviews': '18 Google reviews',
+    'c.title': 'The menu: choose your treatment.',
+    'c.lead': 'Each capsule is a treatment and its colour shows the technique. Hover over the carousel to stop it and tap a capsule to see the details.',
+    'c.note': 'Sessions and timings are approximate: we fine-tune them with you in a personal consultation.',
+    'fam.laser': 'Laser', 'fam.micro': 'Permanent make up', 'fam.mirada': 'Eyes & hands', 'fam.cuidado': 'Face & body',
+    'm.title': 'Permanent make up',
+    'm.lead': 'We draw every stroke on your face before we begin. We measure, we suggest, and we only start once you love it.',
+    'm.1.t': 'Hair-stroke brows', 'm.1.d': 'A hand-drawn design first, then fine strokes that mimic natural hair.',
+    'm.2.t': 'Lips', 'm.2.d': 'Defined colour and contour with a natural, lasting finish.',
+    'm.3.t': 'Eyeliner', 'm.3.d': 'A fine line that defines your eyes from the moment you wake up.',
+    'm.meta': '1 session + touch-up',
+    'l.title': 'Laser, session by session.',
+    'l.lead': 'We remove tattoos and unwanted hair and even out your skin tone, with settings tailored to your skin type.',
+    'svc.1.t': 'Tattoo removal', 'svc.3.t': 'Laser hair removal', 'svc.4.t': 'Carbon Peel', 'svc.5.t': 'Pigmentation',
+    'l.unit': 'Approximate number of sessions, confirmed at your consultation.',
+    'lab.title': 'Watch it <em>fade</em>.',
     'lab.lead': 'Each session shatters the ink into tiny particles that your body clears naturally. Pick a tattoo, move the slider or fire straight at the skin.',
     'lab.d1': 'Viva la vida', 'lab.d1s': 'Lettering · black', 'lab.d2': 'Sacred heart', 'lab.d2s': 'Colour · traditional', 'lab.d3': 'Mandala', 'lab.d3s': 'Fine line · dotwork',
+    'lab.hold': 'Press and hold to see the before', 'lab.badge': 'Approximate preview', 'lab.tip': 'Fire at the tattoo',
     'lab.sessions': 'Sessions', 'lab.f1': 'Interval', 'lab.f1v': '6–8 weeks', 'lab.f2': 'Per session', 'lab.f2v': '10–30 min', 'lab.f3': 'Total time', 'lab.cta': 'Book a consultation',
-    'plan.kicker': 'Your plan', 'plan.title': 'Build your <em>plan</em> in three steps.',
-    'plan.lead': 'Tell us what you’re looking for and we’ll suggest an approximate plan, fine-tuned with you during a personal consultation.',
-    'plan.q1': 'What would you like to achieve?', 'plan.goal.borrar': 'Remove or fade a tattoo', 'plan.goal.cejas': 'Brows, lips or eyeliner', 'plan.goal.vello': 'Hair-free skin', 'plan.goal.piel': 'Glowing, spot-free skin', 'plan.goal.detalles': 'Flawless lashes and nails',
-    'plan.q2': 'What is your skin like?', 'plan.skin.clara': 'Fair', 'plan.skin.media': 'Medium', 'plan.skin.morena': 'Olive or dark', 'plan.skin.sensible': 'Sensitive',
-    'plan.q3': 'Is it your first time?', 'plan.first.primera': 'Yes, first time', 'plan.first.retoque': 'I need a touch-up', 'plan.first.correccion': 'Correct previous work',
-    'plan.cta': 'Book a consultation',
-    'std.kicker': 'The studio', 'std.title': 'Technical precision, <em>homely care</em>.',
+    'std.title': 'Technical precision, <em>homely care</em>.',
+    'man.text': 'At Frida we believe your skin tells your story, and that you decide how it is written. We design brows, lips and eyes that are with you every morning, and with laser technology we erase what no longer represents you. All in a warm studio where you will feel at home.',
     'std.1.t': 'Bespoke design', 'std.1.d': 'Every brow, lip and line is drawn on your face first. We measure, we suggest, and we only start once you love it.',
     'std.2.t': 'Laser technology', 'std.2.d': 'Modern equipment to remove tattoos, hair and spots with progressive results, tailored to your skin.',
     'std.3.t': 'Uncompromising hygiene', 'std.3.d': 'Single-use materials, strict cleaning protocols and top-quality products in every treatment.',
     'std.4.t': 'Just like home', 'std.4.d': 'A warm, quiet space. Our clients all say it: you feel comfortable from the very first minute.',
-    'rev.kicker': 'Reviews', 'rev.count': '18 Google reviews', 'rev.note': 'Real reviews published on Google Maps (in Spanish).',
-    'gal.title': 'Made at <em>Frida</em>',
-    'vis.kicker': 'Visit us', 'vis.title': 'See you in <em>Lloret</em>.', 'vis.addr': 'Address', 'vis.phone': 'Appointments', 'vis.onlyWa': 'WhatsApp only', 'vis.route': 'Get directions',
-    'foot.small': 'Shall we start?', 'foot.big': 'Book your visit', 'foot.tag': 'Permanent make up, laser & aesthetics'
+    'rev.title': 'Clients who keep coming back.', 'rev.count': '18 Google reviews', 'rev.note': 'Real reviews published on Google Maps (in Spanish).',
+    'v.h': 'Opening hours', 'v.h.v': 'Monday to Friday, 10:00 to 19:00<br>Saturday and Sunday, closed', 'v.r': 'Appointments', 'v.only': 'WhatsApp only', 'v.a': 'Address',
+    'foot.tag': 'Permanent make up, laser & aesthetics'
   }
 };
 
@@ -257,10 +271,6 @@ const store = {
   get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
   set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* sin almacenamiento */ } }
 };
-// duplicamos las opiniones para que el carrusel sea infinito y sin saltos
-const mTrack = $('.marquee__track');
-if (mTrack) [...mTrack.children].forEach(c => { const k = c.cloneNode(true); k.setAttribute('aria-hidden', 'true'); mTrack.appendChild(k); });
-
 const originals = new Map();
 $$('[data-i18n]').forEach(el => originals.set(el, el.innerHTML));
 
@@ -269,7 +279,6 @@ if (!['es', 'ca', 'en'].includes(lang)) {
   const nav = (navigator.language || 'es').slice(0, 2).toLowerCase();
   lang = nav === 'ca' ? 'ca' : nav === 'en' ? 'en' : 'es';
 }
-
 const fmtNum = n => lang === 'en' ? String(n) : String(n).replace('.', ',');
 const waLink = msg => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
 
@@ -281,19 +290,17 @@ function applyLang(l, init = false) {
     const val = l === 'es' ? originals.get(el) : (I18N[l] && I18N[l][key]) || originals.get(el);
     if (el.innerHTML !== val) el.innerHTML = val;
   });
-  $$('[data-lang]').forEach(b => b.classList.toggle('is-active', b.dataset.lang === l));
+  $$('[data-lang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === l ? 'true' : 'false'));
   $$('[data-num]').forEach(el => { el.textContent = fmtNum(el.dataset.num); });
   $$('[data-wa]').forEach(a => { a.href = waLink(STR[l].wa); });
-  splitManifesto();
   renderStatus();
-  renderHours();
   renderLab();
-  renderPlan(false);
+  labelCaps();
+  showPick(picked, false);
   Laser.sync();
   if (!init) {
     store.set('fb-lang', l);
     if (hasGSAP) requestAnimationFrame(() => ScrollTrigger.refresh());
-    updateManifesto();
   }
 }
 $$('[data-lang]').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
@@ -329,33 +336,112 @@ function renderStatus() {
     $('.status__text', el).textContent = st.text;
   });
 }
-function renderHours() {
-  const ul = $('.hours'); if (!ul) return;
-  const s = STR[lang]; const today = madridNow().day;
-  ul.innerHTML = [1, 2, 3, 4, 5, 6, 0].map(d => {
-    const h = HOURS[d];
-    return `<li class="${d === today ? 'is-today' : ''}"><span>${s.days[d]}</span><span class="${h ? '' : 'closed'}">${h ? `${fmtTime(h[0])} – ${fmtTime(h[1])}` : s.closed}</span></li>`;
-  }).join('');
-}
 setInterval(renderStatus, 60000);
 
 /* ----------------------------------------------------------
-   MANIFIESTO · palabras que se iluminan
+   LA CARTA · cápsulas que recorren la pista
    ---------------------------------------------------------- */
-const manifesto = $('.manifesto__text');
-function splitManifesto() {
-  if (!manifesto) return;
-  const words = manifesto.textContent.trim().split(/\s+/);
-  manifesto.innerHTML = words.map(w => `<span class="w">${w}</span>`).join(' ');
+const belt = $('#belt');
+const track = $('.belt__track', belt);
+const pickBox = $('#pick');
+const caps = TREAT.map((t, i) => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = `cap cap--${t.fam}`;
+  b.dataset.i = i;
+  b.innerHTML = `<i class="ph-light ${t.icon}" aria-hidden="true"></i><small></small>`;
+  belt.appendChild(b);
+  return b;
+});
+let picked = -1;
+let BW = 0, BH = 0, P = 1, G = { c: 46, horiz: true, r: 1, L: 0 };
+let offset = 0, paused = false, beltVisible = false, beltRunning = false, lastT = 0;
+const SPEED = 42; // px por segundo
+
+function labelCaps() {
+  caps.forEach((b, i) => {
+    const t = TREAT[i];
+    $('small', b).textContent = (t.s || t.n)[lang];
+    b.setAttribute('aria-label', `${t.n[lang]} · ${FAM[t.fam][lang]}`);
+  });
 }
-function updateManifesto() {
-  if (!manifesto) return;
-  const ws = $$('.w', manifesto);
-  const r = manifesto.getBoundingClientRect();
-  const vh = innerHeight;
-  const p = clamp((vh * .82 - r.top) / (r.height + vh * .35));
-  const pos = p * (ws.length + 6) - 3;
-  ws.forEach((w, i) => { w.style.opacity = (0.14 + 0.86 * clamp(pos - i)).toFixed(3); });
+function measureBelt() {
+  BW = belt.clientWidth; BH = belt.clientHeight;
+  const band = parseFloat(getComputedStyle(track).borderTopWidth) || 92;
+  const c = band / 2, horiz = BW >= BH;
+  const r = Math.max(1, (horiz ? BH : BW) / 2 - c), L = Math.abs(BW - BH);
+  P = 2 * L + 2 * Math.PI * r;
+  G = { c, horiz, r, L };
+}
+// punto sobre la línea central de la pista (un estadio horizontal o vertical)
+function pointAt(s) {
+  const { c, horiz, r, L } = G;
+  s = ((s % P) + P) % P;
+  const arc = Math.PI * r;
+  if (horiz) {
+    const x0 = BH / 2, x1 = BW - BH / 2;
+    if (s < L) return [x0 + s, c];
+    s -= L;
+    if (s < arc) { const a = -Math.PI / 2 + s / r; return [x1 + Math.cos(a) * r, BH / 2 + Math.sin(a) * r]; }
+    s -= arc;
+    if (s < L) return [x1 - s, BH - c];
+    s -= L;
+    const a = Math.PI / 2 + s / r; return [x0 + Math.cos(a) * r, BH / 2 + Math.sin(a) * r];
+  }
+  const y0 = BW / 2, y1 = BH - BW / 2;
+  if (s < L) return [BW - c, y0 + s];
+  s -= L;
+  if (s < arc) { const a = s / r; return [BW / 2 + Math.cos(a) * r, y1 + Math.sin(a) * r]; }
+  s -= arc;
+  if (s < L) return [c, y1 - s];
+  s -= L;
+  const a = Math.PI + s / r; return [BW / 2 + Math.cos(a) * r, y0 + Math.sin(a) * r];
+}
+function placeCaps() {
+  const gap = P / caps.length;
+  caps.forEach((b, i) => {
+    const [x, y] = pointAt(offset + i * gap);
+    b.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) scale(var(--k))`;
+  });
+}
+function beltLoop(t) {
+  const dt = lastT ? Math.min(.05, (t - lastT) / 1000) : 0;
+  lastT = t;
+  if (!paused && !reduced) offset += SPEED * dt;
+  placeCaps();
+  if (beltVisible) requestAnimationFrame(beltLoop);
+  else { beltRunning = false; lastT = 0; }
+}
+if ('IntersectionObserver' in window) {
+  new IntersectionObserver(([e]) => {
+    beltVisible = e.isIntersecting;
+    if (beltVisible && !beltRunning) { beltRunning = true; requestAnimationFrame(beltLoop); }
+  }, { threshold: .05 }).observe(belt);
+}
+belt.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') paused = true; });
+belt.addEventListener('pointerleave', () => { paused = false; });
+belt.addEventListener('focusin', () => { paused = true; });
+belt.addEventListener('focusout', () => { paused = false; });
+belt.addEventListener('click', e => {
+  const b = e.target.closest('.cap');
+  if (b) showPick(+b.dataset.i);
+});
+
+function showPick(i, animate = true) {
+  picked = i;
+  caps.forEach((b, k) => b.classList.toggle('is-picked', k === i));
+  const s = STR[lang];
+  if (i < 0) { pickBox.innerHTML = `<p class="pick__hint">${s.hint}</p>`; return; }
+  const t = TREAT[i];
+  const n = t.n[lang];
+  pickBox.innerHTML = `<div class="pick__card cap--${t.fam}">
+    <p class="pick__cat">${FAM[t.fam][lang]}</p>
+    <p class="pick__name">${n}</p>
+    <p class="pick__desc">${t.d[lang]}</p>
+    <p class="pick__meta">${t.m[lang]}</p>
+    <a class="btn btn--laser btn--sm" href="${waLink(s.waTreat(n))}" target="_blank" rel="noopener">${s.book}</a>
+  </div>`;
+  if (animate && motion) gsap.from('.pick__card > *', { y: 14, opacity: 0, filter: 'blur(4px)', duration: .5, ease: 'expo.out', stagger: .05 });
 }
 
 /* ----------------------------------------------------------
@@ -424,7 +510,7 @@ function renderLab() {
 function setSessions(s, animate = true) {
   lab.s = clamp(Math.round(s), 0, 10);
   renderLab();
-  if (animate && hasGSAP && !reduced) gsap.to(lab, { v: lab.s, duration: .9, ease: 'power2.out', overwrite: true, onUpdate: () => applyInk(lab.v) });
+  if (animate && motion) gsap.to(lab, { v: lab.s, duration: .9, ease: 'power2.out', overwrite: true, onUpdate: () => applyInk(lab.v) });
   else { lab.v = lab.s; applyInk(lab.v); }
 }
 if (labImg) {
@@ -452,68 +538,28 @@ if (labImg) {
 }
 
 /* ----------------------------------------------------------
-   CREA TU PLAN
-   ---------------------------------------------------------- */
-const form = $('.ritual__steps');
-const rOut = $('.ritual__out');
-const rCta = $('.ritual__cta');
-const val = name => { const el = form.querySelector(`input[name="${name}"]:checked`); return el ? el.value : ''; };
-const label = name => { const el = form.querySelector(`input[name="${name}"]:checked`); return el ? el.nextElementSibling.textContent.trim() : ''; };
-
-function renderPlan(animate = true) {
-  const s = STR[lang];
-  const goal = val('goal'), skin = val('skin'), first = val('first');
-  $$('.ritual__progress i').forEach((d, i) => d.classList.toggle('is-on', [goal, skin, first][i] !== ''));
-  let html;
-  if (!goal) {
-    html = `<p class="ritual__kicker">${s.rEmpty.k}</p><h3 class="ritual__name">${s.rEmpty.n}</h3><p class="ritual__desc">${(skin || first) ? s.rHint : s.rEmpty.d}</p>`;
-    rCta.classList.add('is-disabled');
-    rCta.href = '#';
-  } else {
-    const P = PLANS[goal][lang];
-    const F = first ? FIRST[first][lang] : null;
-    const steps = [...P.s];
-    if (first === 'correccion') steps.splice(1, 0, F.x);
-    const note = skin ? ` ${SKIN_NOTES[skin][lang]}` : '';
-    html = `<p class="ritual__kicker">${s.rKicker}</p>
-      <h3 class="ritual__name">${P.n}</h3>
-      <p class="ritual__desc">${P.d}${note}</p>
-      <ol class="ritual__list">${steps.map(x => `<li>${x}</li>`).join('')}</ol>
-      <div class="ritual__tags">${P.t.map(x => `<span>${x}</span>`).join('')}</div>
-      <p class="ritual__meta">${F ? `${F.n} · ${first === 'correccion' ? P.m : `${F.x} · ${P.m}`}` : `${P.m} · ${s.noFirst}`}</p>`;
-    rCta.classList.remove('is-disabled');
-    rCta.href = waLink(s.waPlan(P.n, label('skin'), F ? F.n : ''));
-  }
-  rOut.innerHTML = html;
-  if (animate && !reduced) { rOut.classList.remove('is-swap'); void rOut.offsetWidth; rOut.classList.add('is-swap'); }
-}
-form.addEventListener('change', e => {
-  renderPlan(true);
-  // en móvil, al completar los tres pasos llevamos a la propuesta
-  if (innerWidth < 900 && val('goal') && val('skin') && val('first') && e.target.name === 'first') {
-    const card = $('.ritual__card');
-    if (lenis) lenis.scrollTo(card, { offset: -90, duration: 1.2 }); else card.scrollIntoView({ behavior: 'smooth' });
-  }
-});
-
-/* ----------------------------------------------------------
-   MENÚ MÓVIL + NAVEGACIÓN
+   NAV · MENÚ MÓVIL · ANCLAS
    ---------------------------------------------------------- */
 let lenis = null;
+const nav = $('#nav');
 const burger = $('.burger');
-const menu = $('.menu');
+const menu = $('#menu');
+const fab = $('.wa-fab');
+
 function setMenu(open) {
   document.body.classList.toggle('menu-open', open);
   burger.setAttribute('aria-expanded', open ? 'true' : 'false');
   menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+  if (open) nav.classList.remove('is-hidden');
   if (lenis) open ? lenis.stop() : lenis.start();
 }
 burger.addEventListener('click', () => setMenu(!document.body.classList.contains('menu-open')));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
 
 function scrollToTarget(hash) {
   const target = hash === '#top' ? 0 : document.querySelector(hash);
   if (target === null) return;
-  if (lenis) lenis.scrollTo(target, { duration: 1.6, offset: 0 });
+  if (lenis) lenis.scrollTo(target, { duration: 1.4, offset: 0 });
   else if (target === 0) scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
   else target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
 }
@@ -521,177 +567,149 @@ document.addEventListener('click', e => {
   const a = e.target.closest('a[href^="#"]');
   if (!a) return;
   const hash = a.getAttribute('href');
-  if (hash === '#' || hash.length < 2) { e.preventDefault(); return; }
   e.preventDefault();
+  if (hash.length < 2) return;
   const wasOpen = document.body.classList.contains('menu-open');
   if (wasOpen) setMenu(false);
-  setTimeout(() => scrollToTarget(hash), wasOpen ? 350 : 0);
+  setTimeout(() => scrollToTarget(hash), wasOpen ? 300 : 0);
 });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
 
-/* ----------------------------------------------------------
-   HERO · la ventana que se abre a pantalla completa
-   ---------------------------------------------------------- */
-const hero = $('.hero');
-const sticky = $('.hero__sticky');
-const media = $('.hero__media');
-const mediaImg = $('.hero__media img');
-const shade = $('.hero__shade');
-const head = $('.hero__head');
-const cols = $$('.hero__col');
-const colL = $('.hero__col--l');
-const caption = $('.hero__caption');
-const heroState = { intro: hasGSAP && !reduced ? 0 : 1, p: 0 };
-let geom = null;
-
-function measureHero() {
-  const w = innerWidth, h = sticky.clientHeight, mob = w < 760;
-  const g = clamp(w * .04, 16, 64); // = --gutter
-  // escritorio: la foto ocupa la mitad derecha; móvil: bajo los botones
-  if (mob) geom = { h, top: Math.min(colL.offsetTop + colL.offsetHeight + 26, h * .74), left: g, right: g, bottom: g, shift: 0 };
-  else geom = { h, top: head.offsetTop, left: w * .5, right: g, bottom: g, shift: w * .26 };
-}
-function renderHero() {
-  if (!geom) measureHero();
-  const { h, top, left, right, bottom, shift } = geom;
-  const i = easeOut(heroState.intro);
-  const e = easeIO(clamp(heroState.p / .78));
-  const k = 1 - e;
-  const iTop = (h - bottom) - ((h - bottom) - top) * i;
-  media.style.clipPath = `inset(${(iTop * k).toFixed(1)}px ${(right * k).toFixed(1)}px ${(bottom * k).toFixed(1)}px ${(left * k).toFixed(1)}px)`;
-  mediaImg.style.transform = `translate3d(${(shift * k).toFixed(1)}px,0,0) scale(${(1.2 - .2 * e).toFixed(4)})`;
-  shade.style.opacity = e.toFixed(3);
-  const fade = clamp(1 - heroState.p * 3.2);
-  head.style.opacity = fade.toFixed(3);
-  head.style.transform = `translateY(${(-heroState.p * 140).toFixed(1)}px)`;
-  cols.forEach(c => { c.style.opacity = fade.toFixed(3); c.style.transform = `translateY(${(heroState.p * 60).toFixed(1)}px)`; });
-  const cp = clamp((heroState.p - .7) / .2);
-  caption.style.opacity = cp.toFixed(3);
-  caption.style.transform = `translateY(${((1 - cp) * 40).toFixed(1)}px)`;
-  caption.classList.toggle('is-on', cp > .5);
-}
-function heroProgress() {
-  const r = hero.getBoundingClientRect();
-  const span = hero.offsetHeight - innerHeight;
-  heroState.p = span > 0 ? clamp(-r.top / span) : 0;
-}
-
-/* ----------------------------------------------------------
-   SCROLL GLOBAL (nav, fab, hero, manifesto)
-   ---------------------------------------------------------- */
-const nav = $('#nav');
-const fab = $('.wa-fab');
 let lastY = 0, ticking = false;
 function onScroll() {
   const y = window.scrollY;
-  nav.classList.toggle('is-scrolled', y > 30);
-  if (!document.body.classList.contains('menu-open')) nav.classList.toggle('is-hidden', y > lastY && y > innerHeight * .9);
+  nav.classList.toggle('is-solid', y > 60);
+  if (!document.body.classList.contains('menu-open')) nav.classList.toggle('is-hidden', y > lastY && y > 700);
   lastY = y;
-  fab.classList.toggle('is-on', y > innerHeight * 1.6 && y < document.documentElement.scrollHeight - innerHeight * 1.9);
-  heroProgress(); renderHero();
-  updateManifesto();
+  fab.classList.toggle('is-on', y > innerHeight * .9 && y < document.documentElement.scrollHeight - innerHeight * 1.6);
   ticking = false;
 }
 addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
-addEventListener('resize', () => { measureHero(); renderHero(); updateManifesto(); });
+addEventListener('resize', () => { measureBelt(); placeCaps(); });
 
 /* ----------------------------------------------------------
-   BOTONES MAGNÉTICOS
+   INTRO · el telón FRIDA y el corte láser
    ---------------------------------------------------------- */
-if (finePointer && !reduced) {
-  $$('.magnetic').forEach(el => {
-    el.addEventListener('mousemove', e => {
-      const r = el.getBoundingClientRect();
-      const dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
-      el.style.transform = `translate(${(dx * .18).toFixed(1)}px,${(dy * .3).toFixed(1)}px)`;
+const intro = $('#intro');
+
+function heroIn() {
+  document.body.classList.remove('is-locked');
+  if (lenis) lenis.start();
+  if (!motion) return;
+  gsap.timeline()
+    .from('.hero__title span', { yPercent: 100, opacity: 0, duration: 1.3, ease: 'expo.out', stagger: .12 })
+    .from('.hero__kicker, .hero__tag, .hero__sub, .hero__cta, .hero__hours, .hero__hint, .hero__rating', { y: 20, opacity: 0, duration: 1, ease: 'expo.out', stagger: .07 }, '-=.95')
+    .from('.hero__media img', { scale: 1.2, duration: 2.2, ease: 'expo.out' }, 0)
+    .from(nav, { y: -20, opacity: 0, duration: 1, ease: 'expo.out', clearProps: 'transform,opacity' }, .15);
+}
+
+function runIntro() {
+  let seen = false;
+  try { seen = sessionStorage.getItem('fb-intro') === '1'; sessionStorage.setItem('fb-intro', '1'); } catch (e) { /* sin almacenamiento */ }
+  if (!motion || seen) { intro.remove(); heroIn(); return; }
+
+  document.body.classList.add('is-locked');
+  const panels = $('.intro__panels', intro);
+  const ps = $$('.intro__p', intro);
+  const tops = $$('.intro__h--t', intro);
+  const bots = $$('.intro__h--b', intro);
+  const beam = $('.intro__beam', intro);
+  const spark = $('.intro__spark', intro);
+  const cut = { p: 0 };
+  const done = new Set();
+
+  function sweep() {
+    const r = panels.getBoundingClientRect();
+    const ext = innerWidth * .01;
+    const span = r.width + ext * 2;
+    const x = r.left - ext + cut.p * span;
+    beam.style.transform = `scaleX(${cut.p.toFixed(4)})`;
+    spark.style.transform = `translate3d(${(cut.p * span).toFixed(1)}px,0,0)`;
+    ps.forEach((p, i) => {
+      if (done.has(i)) return;
+      const pr = p.getBoundingClientRect();
+      if (x < pr.left + pr.width / 2) return;
+      done.add(i);
+      Laser.fire(pr.left + pr.width / 2, pr.top + pr.height * .55, .75);
+      gsap.to(tops[i], { y: -7, duration: .35, ease: 'power2.out' });
+      gsap.to(bots[i], { y: 9, rotate: i % 2 ? 1.5 : -1.5, duration: .35, ease: 'power2.out' });
     });
-    el.addEventListener('mouseleave', () => { el.style.transform = ''; });
-  });
+  }
+
+  const tl = gsap.timeline({ onComplete: () => intro.remove() });
+  tl.from(ps, { scaleY: 0, duration: .9, ease: 'expo.out', stagger: .06 })
+    .set(spark, { opacity: 1 }, '+=.15')
+    .to(cut, { p: 1, duration: .9, ease: 'power2.inOut', onUpdate: sweep })
+    .to(spark, { opacity: 0, duration: .2 })
+    .to(bots, { y: () => innerHeight * .8, rotate: i => [-9, 6, -5, 8, -7][i % 5], opacity: 0, duration: 1, ease: 'power3.in', stagger: .05 }, '+=.1')
+    .to(tops, { scaleY: 0, duration: .9, ease: 'expo.inOut', stagger: .05 }, '<.15')
+    .to(beam, { opacity: 0, duration: .4 }, '<')
+    .to('.intro__rail', { opacity: 0, duration: .4 }, '-=.5')
+    .to(intro, { backgroundColor: 'rgba(18,11,15,0)', duration: .5 }, '-=.8')
+    .add(heroIn, '-=.8');
+  intro.addEventListener('click', () => tl.progress(1));
 }
 
 /* ----------------------------------------------------------
-   ANIMACIONES GSAP
+   ANIMACIONES DE SCROLL
    ---------------------------------------------------------- */
-function setupScrollAnimations() {
-  if (!hasGSAP || reduced) return;
+function scrollFx() {
+  if (!motion) return;
+  const st = (trigger, start = 'top 85%') => ({ trigger, start, once: true });
 
-  ScrollTrigger.batch('[data-reveal]', {
-    start: 'top 90%', once: true,
-    onEnter: els => gsap.to(els, { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out', stagger: .09, overwrite: true })
-  });
+  $$('main .h2').forEach(h => gsap.from(h, { y: 28, opacity: 0, duration: 1.1, ease: 'expo.out', scrollTrigger: st(h, 'top 88%') }));
+  $$('.lead, .carta__note, .lz__unit, .reviews__note, .score').forEach(el => gsap.from(el, { y: 18, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: st(el, 'top 90%') }));
 
-  // servicios en horizontal (escritorio)
-  const mm = gsap.matchMedia();
-  mm.add('(min-width: 901px)', () => {
-    const track = $('.services__track');
-    const bar = $('.services__progress span');
-    const dist = () => Math.max(0, track.scrollWidth - innerWidth);
-    const tween = gsap.to(track, {
-      x: () => -dist(), ease: 'none',
-      scrollTrigger: {
-        trigger: '.services', start: 'top top', end: () => `+=${dist()}`,
-        pin: true, scrub: .8, invalidateOnRefresh: true, anticipatePin: 1,
-        onUpdate: self => { bar.style.transform = `scaleX(${self.progress.toFixed(4)})`; }
-      }
-    });
-    $$('.svc:not(.svc--end)').forEach(card => {
-      const img = $('img', card);
-      gsap.fromTo(img, { xPercent: -6 }, {
-        xPercent: 6, ease: 'none',
-        scrollTrigger: { trigger: card, containerAnimation: tween, start: 'left right', end: 'right left', scrub: true }
-      });
-    });
-    gsap.from('.svc', { y: 80, opacity: 0, duration: 1.2, ease: 'power3.out', stagger: .07, scrollTrigger: { trigger: '.services', start: 'top 70%', once: true } });
-  });
-  mm.add('(max-width: 900px)', () => {
-    const vp = $('.services__viewport');
-    gsap.from('.svc', { y: 50, opacity: 0, duration: 1, ease: 'power3.out', stagger: .06, scrollTrigger: { trigger: vp, start: 'top 85%', once: true } });
-  });
+  // la carta
+  gsap.from('.belt__track', { scale: .9, opacity: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: st('#belt', 'top 80%') });
+  gsap.from('.cap', { '--k': 0, duration: .9, ease: 'back.out(1.8)', stagger: .04, scrollTrigger: st('#belt', 'top 75%') });
+  gsap.from('.legend li', { y: 10, opacity: 0, duration: .6, ease: 'expo.out', stagger: .05, scrollTrigger: st('.legend') });
 
-  // flor de línea
-  const paths = $$('.eco__draw .draw');
-  paths.forEach(p => { const L = p.getTotalLength(); p.style.strokeDasharray = L; p.style.strokeDashoffset = L; });
-  gsap.to(paths, {
-    strokeDashoffset: 0, ease: 'none', stagger: .1,
-    scrollTrigger: { trigger: '.eco', start: 'top 65%', end: 'bottom 75%', scrub: 1 }
-  });
+  // micropigmentación
+  gsap.from('.micro__a', { clipPath: 'inset(0 0 100% 0)', duration: 1.4, ease: 'expo.inOut', scrollTrigger: st('.micro', 'top 75%') });
+  gsap.from('.micro__list li', { x: 30, opacity: 0, duration: .9, ease: 'expo.out', stagger: .1, scrollTrigger: st('.micro__list') });
+  gsap.from('.micro blockquote', { x: 30, opacity: 0, duration: .9, ease: 'expo.out', scrollTrigger: st('.micro blockquote', 'top 90%') });
+  gsap.from('.micro__b, .micro__c', { y: 70, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: .12, scrollTrigger: st('.micro__b', 'top 92%') });
 
-  // parallax de imágenes
-  $$('.pillar__img img').forEach(img => {
-    gsap.fromTo(img, { yPercent: -14 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } });
-  });
-  $$('.pillar__img').forEach(box => {
-    gsap.fromTo(box, { clipPath: 'inset(12% 8% 12% 8%)' }, { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none', scrollTrigger: { trigger: box, start: 'top 95%', end: 'top 45%', scrub: true } });
-  });
+  // láser
+  gsap.from('.lz__a, .lz__b', { clipPath: 'inset(100% 0 0 0)', duration: 1.3, ease: 'expo.inOut', stagger: .15, scrollTrigger: st('.lz', 'top 75%') });
+  gsap.from('.lz__list li', { x: 30, opacity: 0, duration: .9, ease: 'expo.out', stagger: .08, scrollTrigger: st('.lz__list') });
 
-  // el simulador hace una "demo" al entrar en pantalla
+  // simulador
+  gsap.from('.lab__stage', { clipPath: 'inset(0 0 100% 0)', duration: 1.4, ease: 'expo.inOut', scrollTrigger: st('.sim__grid', 'top 78%') });
+  gsap.from('.designs .design, .lab__info, .sim__ctrl > *', { x: 30, opacity: 0, duration: .9, ease: 'expo.out', stagger: .07, scrollTrigger: st('.sim__grid', 'top 75%') });
   if (labImg) {
+    // el simulador hace una pequeña demo al entrar en pantalla
     ScrollTrigger.create({
       trigger: labImg, start: 'top 55%', once: true,
       onEnter: () => {
         if (lab.s !== 0) return;
-        gsap.timeline()
-          .add(() => setSessions(3), .3)
-          .add(() => setSessions(0), 1.9);
+        gsap.timeline().add(() => setSessions(3), .5).add(() => setSessions(0), 2.1);
       }
     });
   }
 
-  gsap.from('.g', { y: 90, opacity: 0, duration: 1.3, ease: 'power3.out', stagger: .08, scrollTrigger: { trigger: '.gallery__grid', start: 'top 85%', once: true } });
+  // estudio
+  gsap.from('.studio__fig', { clipPath: 'inset(100% 0 0 0)', duration: 1.4, ease: 'expo.inOut', scrollTrigger: st('.studio', 'top 75%') });
+  gsap.from('.studio__list li', { y: 30, opacity: 0, duration: .9, ease: 'expo.out', stagger: .08, scrollTrigger: st('.studio__list') });
 
-  const num = $('.score__num');
-  ScrollTrigger.create({
-    trigger: '.reviews', start: 'top 70%', once: true,
-    onEnter: () => {
-      const o = { v: 0 };
-      gsap.to(o, { v: +num.dataset.count, duration: 2, ease: 'power3.out', onUpdate: () => { num.textContent = fmtNum(o.v.toFixed(1)); } });
-      $('.score__fill').style.width = `${(+num.dataset.count / 5) * 100}%`;
-    }
+  // opiniones
+  gsap.set('.rv', { y: 30, opacity: 0 });
+  ScrollTrigger.batch('.rv', { start: 'top 92%', once: true, onEnter: els => gsap.to(els, { y: 0, opacity: 1, duration: .9, ease: 'expo.out', stagger: .1 }) });
+
+  // visítanos
+  gsap.from('.visit dl > div', { x: 30, opacity: 0, duration: .9, ease: 'expo.out', stagger: .08, scrollTrigger: st('.visit dl') });
+  gsap.from('.visit__fig', { clipPath: 'inset(0 0 100% 0)', duration: 1.4, ease: 'expo.inOut', scrollTrigger: st('.visit', 'top 70%') });
+
+  // paralaje suave
+  gsap.to('.hero__media', { yPercent: 18, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  gsap.matchMedia().add('(min-width: 921px)', () => {
+    ['.micro__a img', '.studio__fig img'].forEach(sel => {
+      gsap.fromTo(sel, { yPercent: -10 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: $(sel).parentElement, start: 'top bottom', end: 'bottom top', scrub: true } });
+    });
   });
 
-  gsap.from('.footer__mark > *', { yPercent: 60, opacity: 0, duration: 1.4, ease: 'power4.out', stagger: .1, scrollTrigger: { trigger: '.footer__mark', start: 'top 92%', once: true } });
-
-  ['servicios', 'laser', 'plan', 'estudio', 'opiniones', 'visitanos'].forEach(id => {
+  // enlace activo en la navegación
+  ['carta', 'micropigmentacion', 'laser', 'simulador', 'estudio', 'visitanos'].forEach(id => {
     const link = $(`.nav__links a[href="#${id}"]`);
     const sec = document.getElementById(id);
     if (!link || !sec) return;
@@ -699,77 +717,26 @@ function setupScrollAnimations() {
   });
 }
 
-function staticFallback() {
-  const num = $('.score__num');
-  num.textContent = fmtNum(num.dataset.count);
-  $('.score__fill').style.width = `${(+num.dataset.count / 5) * 100}%`;
-}
-
-/* ----------------------------------------------------------
-   PRELOADER · el láser escribe el logo
-   ---------------------------------------------------------- */
-function heroIntro() {
-  document.body.classList.remove('is-loading');
-  if (lenis) lenis.start();
-  if (!hasGSAP || reduced) { heroState.intro = 1; renderHero(); return; }
-  gsap.to(heroState, { intro: 1, duration: 1.8, ease: 'power3.inOut', onUpdate: renderHero });
-  gsap.to('.hero .mask > *', { y: 0, duration: 1.4, ease: 'power4.out', stagger: .12, delay: .15 });
-  gsap.from('.hero .eyebrow', { opacity: 0, y: 14, duration: 1, ease: 'power3.out', delay: .1 });
-  gsap.from('.hero__hint', { opacity: 0, y: 14, duration: 1, ease: 'power3.out', delay: .7 });
-  gsap.from('.hero__col > *', { opacity: 0, y: 24, duration: 1.2, ease: 'power3.out', stagger: .1, delay: .6 });
-  gsap.from('.nav > *', { opacity: 0, y: -16, duration: 1, ease: 'power3.out', stagger: .08, delay: .3 });
-}
-
-function runLoader() {
-  const loader = $('.loader');
-  if (!hasGSAP || reduced) { loader.remove(); heroIntro(); return; }
-  const num = $('.loader__num');
-  const counter = { v: 0 };
-  const img = mediaImg;
-  const imgReady = img.complete ? Promise.resolve() : new Promise(r => { img.addEventListener('load', r, { once: true }); img.addEventListener('error', r, { once: true }); });
-  const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
-  const timeout = new Promise(r => setTimeout(r, 4000));
-  const ready = Promise.race([Promise.all([imgReady, fontsReady]), timeout]);
-
-  const intro = gsap.timeline({ delay: .2 });
-  intro.to('.loader__beam', { opacity: 1, duration: .2 })
-    .to('.loader__ink', { clipPath: 'inset(0 0% 0 0)', duration: 1.4, ease: 'power2.inOut' }, '<')
-    .to('.loader__beam', { left: '100%', duration: 1.4, ease: 'power2.inOut' }, '<')
-    .to('.loader__beam', { opacity: 0, duration: .25 })
-    .to('.loader__box', { clipPath: 'inset(0 0% 0 0)', duration: .8, ease: 'power4.inOut' }, '-=.4')
-    .to(counter, { v: 100, duration: 2, ease: 'power2.inOut', onUpdate: () => { num.textContent = String(Math.round(counter.v)).padStart(2, '0'); } }, 0)
-    .to('.loader__bar span', { scaleX: 1, duration: 2.1, ease: 'power2.inOut' }, 0)
-    .to('.loader__sub', { opacity: 1, duration: .6 }, '-=.8');
-
-  Promise.all([ready, new Promise(r => intro.eventCallback('onComplete', r))]).then(() => {
-    measureHero(); renderHero();
-    gsap.timeline({ onComplete: () => loader.remove() })
-      .to('.loader__logo, .loader__sub, .loader__num', { y: -30, opacity: 0, duration: .6, ease: 'power3.in' })
-      .to(loader, { clipPath: 'inset(0 0 100% 0)', duration: 1.1, ease: 'power4.inOut' }, '-=.2')
-      .add(heroIntro, '-=.75');
-  });
-}
-
 /* ----------------------------------------------------------
    INICIO
    ---------------------------------------------------------- */
 scrollTo(0, 0);
+measureBelt();
 applyLang(lang, true);
 setSessions(0, false);
+placeCaps();
 
-if (hasGSAP && !reduced && typeof window.Lenis !== 'undefined') {
-  lenis = new Lenis({ duration: 1.15, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+if (motion && typeof window.Lenis !== 'undefined') {
+  lenis = new Lenis({ duration: 1.1, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add(t => lenis.raf(t * 1000));
   gsap.ticker.lagSmoothing(0);
   lenis.stop();
 }
 
-measureHero(); renderHero(); updateManifesto();
-setupScrollAnimations();
-if (!hasGSAP || reduced) staticFallback();
-runLoader();
+scrollFx();
+runIntro();
 
-if (document.fonts) document.fonts.ready.then(() => { measureHero(); renderHero(); if (hasGSAP) ScrollTrigger.refresh(); });
-addEventListener('load', () => { if (hasGSAP) ScrollTrigger.refresh(); });
+if (document.fonts) document.fonts.ready.then(() => { measureBelt(); placeCaps(); if (hasGSAP) ScrollTrigger.refresh(); });
+addEventListener('load', () => { measureBelt(); placeCaps(); if (hasGSAP) ScrollTrigger.refresh(); });
 })();

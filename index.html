@@ -5,31 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Frida Bellesa · Micropigmentación, láser y estética en Lloret de Mar</title>
 <meta name="description" content="Frida Bellesa: estudio de micropigmentación, eliminación de tatuajes con láser, depilación láser, Carbon Peel, pestañas y uñas en Lloret de Mar. Citas por WhatsApp.">
-<meta name="theme-color" content="#FBF7F6">
+<meta name="theme-color" content="#120B0F">
 <meta property="og:title" content="Frida Bellesa · Lo que amas, permanece. Lo demás, lo borramos.">
 <meta property="og:description" content="Permanent make up, láser y estética avanzada en Lloret de Mar.">
 <meta property="og:image" content="https://images.unsplash.com/photo-1615379780633-90570048e1de?auto=format&fit=crop&w=1200&q=80">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231B1416'/%3E%3Ctext x='32' y='46' font-family='Georgia' font-style='italic' font-size='38' fill='%23E7C9CB' text-anchor='middle'%3EF%3C/text%3E%3Ccircle cx='50' cy='14' r='4' fill='%23FF2E4D'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23120B0F'/%3E%3Ctext x='32' y='47' font-family='Didot,Georgia,serif' font-weight='700' font-size='42' fill='%23F5EDEC' text-anchor='middle'%3EF%3C/text%3E%3Crect x='10' y='34' width='44' height='3' fill='%23FF4D79'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..115,400..600&family=Bodoni+Moda:ital,opsz,wght@1,6..96,400&family=DM+Mono:wght@400;500&family=Manrope:wght@500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Hanken+Grotesk:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/light/style.css">
 <link rel="stylesheet" href="style.css">
 </head>
-<body class="is-loading">
+<body>
 
-<!-- ============ PRELOADER ============ -->
-<div class="loader" aria-hidden="true">
-  <div class="loader__logo">
-    <span class="loader__script"><span class="loader__ink">Frida</span><i class="loader__beam"></i></span>
-    <span class="loader__box">BELLESA</span>
+<!-- ============ INTRO · el láser corta el telón ============ -->
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro__rail"></div>
+  <div class="intro__panels">
+    <span class="intro__p"><span class="intro__h intro__h--t"><b>F</b></span><span class="intro__h intro__h--b"><b>F</b></span></span>
+    <span class="intro__p"><span class="intro__h intro__h--t"><b>R</b></span><span class="intro__h intro__h--b"><b>R</b></span></span>
+    <span class="intro__p"><span class="intro__h intro__h--t"><b>I</b></span><span class="intro__h intro__h--b"><b>I</b></span></span>
+    <span class="intro__p"><span class="intro__h intro__h--t"><b>D</b></span><span class="intro__h intro__h--b"><b>D</b></span></span>
+    <span class="intro__p"><span class="intro__h intro__h--t"><b>A</b></span><span class="intro__h intro__h--b"><b>A</b></span></span>
+    <i class="intro__beam"></i><i class="intro__spark"></i>
   </div>
-  <p class="loader__sub">permanent make up · láser · estètica</p>
-  <div class="loader__bar"><span></span></div>
-  <span class="loader__num">00</span>
 </div>
 
-<!-- ============ LASER CURSOR ============ -->
+<!-- ============ CURSOR LÁSER ============ -->
 <div class="laser" aria-hidden="true">
   <div class="laser__aim"><i class="laser__dot"></i><i class="laser__ring"></i></div>
   <div class="laser__hand">
@@ -37,35 +40,26 @@
       <svg viewBox="-4 -40 200 80" width="140" height="56">
         <defs>
           <linearGradient id="lzBody" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#4a3c41"/><stop offset=".35" stop-color="#231a1d"/><stop offset="1" stop-color="#0d090a"/>
+            <stop offset="0" stop-color="#FFF8F7"/><stop offset=".4" stop-color="#DCCFD2"/><stop offset="1" stop-color="#9C8C92"/>
           </linearGradient>
           <linearGradient id="lzGold" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#F3D2B5"/><stop offset=".5" stop-color="#C49A6C"/><stop offset="1" stop-color="#8A6440"/>
+            <stop offset="0" stop-color="#F8D3C4"/><stop offset=".5" stop-color="#D59A86"/><stop offset="1" stop-color="#9A6656"/>
           </linearGradient>
           <linearGradient id="lzCone" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#d9cfd2"/><stop offset=".5" stop-color="#8d8185"/><stop offset="1" stop-color="#4b4246"/>
+            <stop offset="0" stop-color="#EFE7E9"/><stop offset=".5" stop-color="#B7ACB0"/><stop offset="1" stop-color="#7B7075"/>
           </linearGradient>
         </defs>
-        <!-- cable -->
-        <path class="laser__cable" d="M150 0 C 176 4, 186 22, 200 40" fill="none" stroke="#1B1416" stroke-width="5" stroke-linecap="round"/>
-        <!-- spacer prong -->
-        <path d="M0 0 L14 -3 L14 3 Z" fill="#A86B76" opacity=".85"/>
-        <!-- nozzle -->
+        <path class="laser__cable" d="M150 0 C 176 4, 186 22, 200 40" fill="none" stroke="#8C7E84" stroke-width="5" stroke-linecap="round"/>
+        <path d="M0 0 L14 -3 L14 3 Z" fill="#FF4D79" opacity=".85"/>
         <path d="M12 -5 L34 -11 L34 11 L12 5 Z" fill="url(#lzCone)"/>
-        <circle cx="12" cy="0" r="4.2" fill="#FF2E4D" class="laser__lens"/>
-        <!-- gold ring -->
+        <circle cx="12" cy="0" r="4.2" fill="#FF4D79" class="laser__lens"/>
         <rect x="34" y="-13" width="7" height="26" rx="2" fill="url(#lzGold)"/>
-        <!-- body -->
         <rect x="40" y="-12" width="98" height="24" rx="10" fill="url(#lzBody)"/>
-        <rect x="46" y="-9.5" width="86" height="2" rx="1" fill="#fff" opacity=".18"/>
-        <!-- trigger -->
-        <rect x="60" y="-16" width="20" height="5" rx="2.5" fill="#A86B76"/>
-        <!-- led -->
-        <circle cx="104" cy="0" r="2.6" fill="#7CFFB2" class="laser__led"/>
-        <!-- label -->
-        <text x="116" y="3.2" font-family="Manrope, sans-serif" font-size="7" letter-spacing="1.2" fill="#E7C9CB" opacity=".75">FRIDA</text>
-        <!-- tail -->
-        <path d="M138 -9 L152 -5 L152 5 L138 9 Z" fill="#1B1416"/>
+        <rect x="46" y="-9.5" width="86" height="2" rx="1" fill="#fff" opacity=".6"/>
+        <rect x="60" y="-16" width="20" height="5" rx="2.5" fill="#FF4D79"/>
+        <circle cx="104" cy="0" r="2.6" fill="#4ADE9A" class="laser__led"/>
+        <text x="114" y="3.2" font-family="Hanken Grotesk, sans-serif" font-weight="600" font-size="7" letter-spacing="1.2" fill="#120B0F" opacity=".7">FRIDA</text>
+        <path d="M138 -9 L152 -5 L152 5 L138 9 Z" fill="#8C7E84"/>
       </svg>
     </div>
   </div>
@@ -74,442 +68,279 @@
 
 <!-- ============ NAV ============ -->
 <header class="nav" id="nav">
-  <a href="#top" class="logo" aria-label="Frida Bellesa — inicio">
-    <span class="logo__script">Frida</span><span class="logo__box">BELLESA</span>
-  </a>
+  <a class="brand" href="#top" aria-label="Frida Bellesa — inicio">Frida <i>Bellesa</i></a>
   <nav class="nav__links" aria-label="Principal">
-    <a href="#servicios" data-i18n="nav.services">Servicios</a>
+    <a href="#carta" data-i18n="nav.carta">Carta</a>
+    <a href="#micropigmentacion" data-i18n="nav.micro">Micropigmentación</a>
     <a href="#laser" data-i18n="nav.laser">Láser</a>
-    <a href="#plan" data-i18n="nav.plan">Tu plan</a>
-    <a href="#estudio" data-i18n="nav.studio">El estudio</a>
-    <a href="#opiniones" data-i18n="nav.reviews">Opiniones</a>
+    <a href="#simulador" data-i18n="nav.sim">Simulador</a>
+    <a href="#estudio" data-i18n="nav.studio">Estudio</a>
     <a href="#visitanos" data-i18n="nav.visit">Visítanos</a>
   </nav>
-  <div class="nav__right">
-    <span class="status" data-status><i></i><span class="status__text">&nbsp;</span></span>
+  <div class="nav__end">
     <div class="lang" role="group" aria-label="Idioma">
-      <button type="button" data-lang="es" class="is-active">ES</button>
-      <button type="button" data-lang="ca">CA</button>
-      <button type="button" data-lang="en">EN</button>
+      <button type="button" data-lang="es" aria-pressed="true">ES</button>
+      <button type="button" data-lang="ca" aria-pressed="false">CA</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
     </div>
-    <a class="btn btn--ink btn--sm magnetic nav__cta" href="#" data-wa target="_blank" rel="noopener"><span data-i18n="cta.book">Pedir cita</span></a>
-    <button class="burger" type="button" aria-label="Menú" aria-expanded="false"><span></span><span></span></button>
+    <a class="btn btn--laser btn--sm nav__cta" href="#" data-wa target="_blank" rel="noopener"><span data-i18n="cta.book">Pedir cita</span></a>
+    <button class="burger" type="button" aria-label="Menú" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
   </div>
 </header>
 
-<div class="menu" aria-hidden="true">
-  <nav class="menu__links">
-    <a href="#servicios"><small>01</small><span data-i18n="nav.services">Servicios</span></a>
-    <a href="#laser"><small>02</small><span data-i18n="nav.laser">Láser</span></a>
-    <a href="#plan"><small>03</small><span data-i18n="nav.plan">Tu plan</span></a>
-    <a href="#estudio"><small>04</small><span data-i18n="nav.studio">El estudio</span></a>
-    <a href="#opiniones"><small>05</small><span data-i18n="nav.reviews">Opiniones</span></a>
-    <a href="#visitanos"><small>06</small><span data-i18n="nav.visit">Visítanos</span></a>
+<div class="menu" id="menu" aria-hidden="true">
+  <nav class="menu__links" aria-label="Menú">
+    <a href="#carta" data-i18n="nav.carta">Carta</a>
+    <a href="#micropigmentacion" data-i18n="nav.micro">Micropigmentación</a>
+    <a href="#laser" data-i18n="nav.laser">Láser</a>
+    <a href="#simulador" data-i18n="nav.sim">Simulador</a>
+    <a href="#estudio" data-i18n="nav.studio">Estudio</a>
+    <a href="#visitanos" data-i18n="nav.visit">Visítanos</a>
   </nav>
   <div class="menu__foot">
-    <span class="status" data-status><i></i><span class="status__text">&nbsp;</span></span>
-    <div class="lang lang--menu" role="group" aria-label="Idioma">
-      <button type="button" data-lang="es" class="is-active">ES</button>
-      <button type="button" data-lang="ca">CA</button>
-      <button type="button" data-lang="en">EN</button>
+    <div class="lang" role="group" aria-label="Idioma">
+      <button type="button" data-lang="es" aria-pressed="true">ES</button>
+      <button type="button" data-lang="ca" aria-pressed="false">CA</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
     </div>
-    <a class="btn btn--ink" href="#" data-wa target="_blank" rel="noopener"><span data-i18n="cta.bookLong">Pedir cita por WhatsApp</span></a>
+    <a class="btn btn--laser" href="#" data-wa target="_blank" rel="noopener"><i class="ph-light ph-whatsapp-logo" aria-hidden="true"></i><span data-i18n="cta.bookLong">Pedir cita por WhatsApp</span></a>
   </div>
 </div>
 
-<main>
+<main id="top">
 
-<!-- ============ HERO ============ -->
-<section class="hero" id="top">
-  <div class="hero__sticky">
-    <div class="hero__media">
-      <img src="https://images.unsplash.com/photo-1615379780633-90570048e1de?auto=format&fit=crop&w=2200&q=80" alt="Retrato de mujer con corona de flores" fetchpriority="high">
-      <div class="hero__shade"></div>
-    </div>
-
-    <div class="hero__head">
-      <p class="eyebrow eyebrow--center"><span data-i18n="hero.eyebrow">Permanent make up · Láser · Estética — Lloret de Mar</span></p>
-      <h1 class="hero__title">
-        <span class="mask"><span data-i18n="hero.l1">Lo que amas, permanece.</span></span>
-        <span class="mask"><em data-i18n="hero.l2">Lo demás, lo borramos.</em></span>
-      </h1>
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero__media"><img src="https://images.unsplash.com/photo-1615379780633-90570048e1de?auto=format&fit=crop&w=1800&q=80" alt="Retrato de mujer con corona de flores" fetchpriority="high" width="1800" height="2700"></div>
+    <div class="hero__copy">
+      <p class="hero__kicker" data-i18n="hero.eyebrow">Permanent make up · Láser · Estética — Lloret de Mar</p>
+      <h1 class="hero__title"><span>Frida</span><span>Bellesa</span></h1>
+      <p class="hero__tag"><span data-i18n="hero.l1">Lo que amas, permanece.</span> <em data-i18n="hero.l2">Lo demás, lo borramos.</em></p>
+      <p class="hero__sub" data-i18n="hero.lead">Diseñamos tu mirada, borramos lo que ya no te representa y cuidamos tu piel con tecnología de última generación.</p>
+      <div class="hero__cta">
+        <a class="btn btn--laser" href="#" data-wa target="_blank" rel="noopener"><span data-i18n="cta.book">Pedir cita</span></a>
+        <a class="btn btn--line" href="#carta"><span data-i18n="cta.carta">Ver la carta</span></a>
+      </div>
+      <p class="hero__hours"><span data-i18n="hero.hours">Lunes a viernes · 10:00 a 19:00</span><span class="status" data-status><i></i><span class="status__text">&nbsp;</span></span></p>
       <p class="hero__hint">
-        <svg class="ico" viewBox="0 0 24 24"><path d="M3 21l7-7M14 4l6 6-8 8-6-6 8-8z"/><circle cx="3" cy="21" r="1"/></svg>
+        <i class="ph-light ph-cursor-click" aria-hidden="true"></i>
         <span class="hint--fine" data-i18n="hero.hint">Haz clic en cualquier texto: nuestro láser lo borra</span>
         <span class="hint--touch" data-i18n="hero.hintTouch">Toca cualquier texto: nuestro láser lo borra</span>
       </p>
     </div>
+    <a class="hero__rating" href="#opiniones"><span class="stars" aria-hidden="true">★★★★★</span><b data-num="4.7">4,7</b><span data-i18n="hero.reviews">18 opiniones en Google</span></a>
+  </section>
 
-    <div class="hero__col hero__col--l">
-      <p class="hero__lead" data-i18n="hero.lead">Diseñamos tu mirada, borramos lo que ya no te representa y cuidamos tu piel con tecnología de última generación.</p>
-      <div class="hero__ctas">
-        <a class="btn btn--ink magnetic" href="#" data-wa target="_blank" rel="noopener"><span data-i18n="cta.book">Pedir cita</span><svg class="ico" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <a class="btn btn--line magnetic" href="#laser"><span data-i18n="cta.lab">Simulador láser</span></a>
-      </div>
+  <!-- ============ CARTA · cápsulas que giran ============ -->
+  <section class="carta" id="carta">
+    <div class="carta__head">
+      <h2 class="h2" data-i18n="c.title">La carta: elige tu tratamiento.</h2>
+      <p class="lead" data-i18n="c.lead">Cada cápsula es un tratamiento y su color indica la técnica. Pasa el cursor por el carrusel para detenerlo y toca una cápsula para ver los detalles.</p>
     </div>
-
-    <div class="hero__col hero__col--r">
-      <div class="meta">
-        <span class="status status--plain" data-status><i></i><span class="status__text">&nbsp;</span></span>
-        <a class="meta__rating" href="#opiniones"><span class="stars" aria-hidden="true">★★★★★</span> <strong data-num="4.7">4,7</strong> <span data-i18n="hero.reviews">· 18 opiniones en Google</span></a>
-        <span class="meta__addr">Av. de Vidreres, 159 · Lloret de Mar</span>
-      </div>
-    </div>
-
-    <div class="hero__caption">
-      <h2><span data-i18n="hero.cap1">Láser, micropigmentación</span><br><em data-i18n="hero.cap2">y belleza que se queda.</em></h2>
-      <a class="hero__down" href="#manifesto" aria-label="Seguir">
-        <svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ============ MANIFESTO ============ -->
-<section class="manifesto" id="manifesto">
-  <p class="eyebrow" data-reveal><span data-i18n="man.kicker">Nuestra filosofía</span></p>
-  <p class="manifesto__text" data-i18n="man.text" data-split>En Frida creemos que tu piel cuenta tu historia, y que tú decides cómo se escribe. Diseñamos cejas, labios y miradas que te acompañan cada mañana, y con tecnología láser borramos lo que ya no te representa. Todo en un estudio cercano, donde te sentirás como en casa.</p>
-  <div class="manifesto__sign" data-reveal>
-    <span class="logo logo--sm"><span class="logo__script">Frida</span><span class="logo__box">BELLESA</span></span>
-    <span data-i18n="man.sign">Lloret de Mar · Costa Brava</span>
-  </div>
-</section>
-
-<!-- ============ SERVICES (horizontal) ============ -->
-<section class="services" id="servicios">
-  <div class="services__pin">
-    <header class="services__head">
-      <div>
-        <p class="eyebrow"><span data-i18n="svc.kicker">Servicios</span></p>
-        <h2 class="h2"><span data-i18n="svc.title">Técnica, láser y <em>detalle</em>.</span></h2>
-      </div>
-      <p class="services__hint"><span data-i18n="svc.hint">Desliza para descubrir</span> <svg class="ico" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></p>
-    </header>
-
-    <div class="services__viewport">
-      <div class="services__track">
-        <article class="svc">
-          <div class="svc__img"><img loading="lazy" src="https://images.unsplash.com/photo-1597852075234-fd721ac361d3?auto=format&fit=crop&w=1000&q=75" alt="Brazo tatuado durante un tratamiento"></div>
-          <div class="svc__body"><span class="svc__n">01</span><h3 data-i18n="svc.1.t">Eliminación de tatuajes</h3><p data-i18n="svc.1.d">Tecnología láser que fragmenta la tinta sesión a sesión, para borrar o aclarar antes de un cover-up.</p></div>
-        </article>
-        <article class="svc">
-          <div class="svc__img"><img loading="lazy" src="https://images.unsplash.com/photo-1785860945533-918a531bcdeb?auto=format&fit=crop&w=1000&q=75" alt="Diseño de cejas con micropigmentación"></div>
-          <div class="svc__body"><span class="svc__n">02</span><h3 data-i18n="svc.2.t">Micropigmentación</h3><p data-i18n="svc.2.d">Cejas pelo a pelo, labios y eyeliner con un diseño pensado para tu rostro.</p></div>
-        </article>
-        <article class="svc">
-          <div class="svc__img"><img loading="lazy" src="https://images.unsplash.com/photo-1700760933574-9f0f4ea9aa3b?auto=format&fit=crop&w=1000&q=75" alt="Depilación láser en la pierna"></div>
-          <div class="svc__body"><span class="svc__n">03</span><h3 data-i18n="svc.3.t">Depilación láser</h3><p data-i18n="svc.3.d">Adiós al vello de forma progresiva y duradera, en cualquier zona del cuerpo.</p></div>
-        </article>
-        <article class="svc">
-          <div class="svc__img"><img loading="lazy" src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1000&q=75" alt="Mascarilla facial oscura en cabina"></div>
-          <div class="svc__body"><span class="svc__n">04</span><h3 data-i18n="svc.4.t">Carbon Peel</h3><p data-i18n="svc.4.d">El peeling de Hollywood: poros afinados y una piel uniforme y luminosa desde la primera sesión.</p></div>
-        </article>
-        <article class="svc">
-          <div class="svc__img"><img loading="lazy" src="https://images.unsplash.com/photo-1713085085470-fba013d67e65?auto=format&fit=crop&w=1000&q=75" alt="Tratamiento facial con aparatología"></div>
-          <div class="svc__body"><span class="svc__n">05</span><h3 data-i18n="svc.5.t">Manchas</h3><p data-i18n="svc.5.d">Láser para atenuar manchas solares y de la edad y devolver a tu piel un tono homogéneo.</p></div>
-        </article>
-        <article class="svc">
-          <div class="svc__img"><img loading="lazy" src="https://images.unsplash.com/photo-1589710751893-f9a6770ad71b?auto=format&fit=crop&w=1000&q=75" alt="Aplicación de extensiones de pestañas"></div>
-          <div class="svc__body"><span class="svc__n">06</span><h3 data-i18n="svc.6.t">Pestañas</h3><p data-i18n="svc.6.d">Lifting, tinte y extensiones para una mirada intensa sin necesidad de máscara.</p></div>
-        </article>
-        <article class="svc">
-          <div class="svc__img"><img loading="lazy" src="https://images.unsplash.com/photo-1610992015762-45dca7fa3a85?auto=format&fit=crop&w=1000&q=75" alt="Manicura en tono rosa claro"></div>
-          <div class="svc__body"><span class="svc__n">07</span><h3 data-i18n="svc.7.t">Uñas</h3><p data-i18n="svc.7.d">Manicura, pedicura y esmaltado semipermanente con un acabado impecable.</p></div>
-        </article>
-        <article class="svc">
-          <div class="svc__img"><img loading="lazy" src="https://images.unsplash.com/photo-1785860458107-5be1a99d4188?auto=format&fit=crop&w=1000&q=75" alt="Tratamiento en el cuero cabelludo"></div>
-          <div class="svc__body"><span class="svc__n">08</span><h3 data-i18n="svc.8.t">Tricopigmentación</h3><p data-i18n="svc.8.d">Efecto de densidad o de cabello rasurado para disimular las zonas con menos pelo.</p></div>
-        </article>
-        <article class="svc">
-          <div class="svc__img"><img loading="lazy" src="https://images.unsplash.com/photo-1639162906614-0603b0ae95fd?auto=format&fit=crop&w=1000&q=75" alt="Masaje de espalda en cabina"></div>
-          <div class="svc__body"><span class="svc__n">09</span><h3 data-i18n="svc.9.t">Facial &amp; corporal</h3><p data-i18n="svc.9.d">Higiene facial profunda, maderoterapia y masajes para cuidar cuerpo y mente.</p></div>
-        </article>
-        <a class="svc svc--end" href="#plan" data-cursor="→">
-          <span class="svc__n">?</span>
-          <h3 data-i18n="svc.end.t">¿No sabes qué necesitas?</h3>
-          <p data-i18n="svc.end.d">Responde tres preguntas y te proponemos un plan a tu medida.</p>
-          <span class="btn btn--paper"><span data-i18n="cta.plan">Crea tu plan</span></span>
-        </a>
-      </div>
-    </div>
-    <div class="services__progress"><span></span></div>
-  </div>
-</section>
-
-<!-- ============ LASER LAB ============ -->
-<section class="lab" id="laser">
-  <div class="lab__stage" data-reveal data-cursor="+1">
-    <div class="lab__img" id="labImg">
-      <img loading="lazy" src="https://images.unsplash.com/photo-1651135476167-34e4cce7134d?auto=format&fit=crop&w=1200&q=80" alt="Espalda de mujer con un tatuaje simulado">
-      <svg class="lab__ink" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <defs>
-          <filter id="inkErode" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
-            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="noise"/>
-            <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.4 0 0 0 0" result="na"/>
-            <feComponentTransfer in="na" result="mask"><feFuncA id="erodeFn" type="linear" slope="5" intercept="1"/></feComponentTransfer>
-            <feComposite in="SourceGraphic" in2="mask" operator="in" result="eroded"/>
-            <feGaussianBlur in="eroded" stdDeviation=".45" id="erodeBlur"/>
-          </filter>
-        </defs>
-        <g class="lab__art" filter="url(#inkErode)">
-          <!-- Viva la vida -->
-          <g data-design="vida" transform="translate(214 392) rotate(-7)">
-            <g class="ink ink--k">
-              <text x="0" y="0" text-anchor="middle" font-family="Pinyon Script, cursive" font-size="50" fill="#16100f">Viva la vida</text>
-              <path d="M-96 18 C -50 30, 40 8, 98 20" fill="none" stroke="#16100f" stroke-width="1.4" stroke-linecap="round"/>
-              <path d="M-4 -52 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3z" fill="#16100f"/>
-              <circle cx="-20" cy="-40" r="1.6" fill="#16100f"/><circle cx="14" cy="-44" r="1.2" fill="#16100f"/><circle cx="104" cy="12" r="1.6" fill="#16100f"/><circle cx="-102" cy="12" r="1.2" fill="#16100f"/>
-            </g>
-          </g>
-          <!-- Sagrado corazón -->
-          <g data-design="corazon" transform="translate(214 398) scale(.92)">
-            <g class="ink ink--g">
-              <path d="M-8 44 C -40 62, -70 58, -92 38 C -62 34, -34 36, -8 44 Z" fill="#2E7A4E"/>
-              <path d="M8 44 C 40 62, 70 58, 92 38 C 62 34, 34 36, 8 44 Z" fill="#2E7A4E"/>
-            </g>
-            <g class="ink ink--y">
-              <path d="M-16 -46 C -24 -62, -8 -70, -12 -90 C 0 -80, 4 -72, 2 -62 C 8 -68, 10 -78, 8 -88 C 22 -74, 22 -58, 16 -46 Z" fill="#F2B233"/>
-              <path d="M-8 -46 C -10 -56, -2 -60, -3 -70 C 4 -64, 6 -58, 4 -50 C 7 -54, 8 -58, 8 -62 C 13 -56, 12 -50, 9 -46 Z" fill="#E4632A"/>
-            </g>
-            <g class="ink ink--r">
-              <path d="M0 52 C -66 14, -80 -30, -50 -50 C -28 -64, -8 -54, 0 -40 C 8 -54, 28 -64, 50 -50 C 80 -30, 66 14, 0 52 Z" fill="#C2232F"/>
-              <path d="M-36 -38 C -50 -30, -52 -14, -46 -2" fill="none" stroke="#F4A7A7" stroke-width="5" stroke-linecap="round" opacity=".7"/>
-            </g>
-            <g class="ink ink--k" fill="none" stroke="#16100f" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M0 52 C -66 14, -80 -30, -50 -50 C -28 -64, -8 -54, 0 -40 C 8 -54, 28 -64, 50 -50 C 80 -30, 66 14, 0 52 Z" stroke-width="3.2"/>
-              <path d="M-16 -46 C -24 -62, -8 -70, -12 -90 C 0 -80, 4 -72, 2 -62 C 8 -68, 10 -78, 8 -88 C 22 -74, 22 -58, 16 -46" stroke-width="2.4"/>
-              <path d="M-66 -6 C -30 6, 30 6, 66 -6" stroke-width="2.2"/>
-              <path d="M-64 2 C -30 14, 30 14, 64 2" stroke-width="2.2"/>
-              <path d="M-56 -3 l-4 -8 M-42 1 l-2 -9 M-28 4 l-1 -9 M-14 5 l0 -9 M0 6 l1 -9 M14 5 l2 -9 M28 4 l3 -9 M42 1 l4 -8 M56 -3 l5 -7 M-48 6 l-3 9 M-34 9 l-1 9 M-20 11 l0 9 M-6 12 l1 9 M8 12 l2 9 M22 11 l2 9 M36 9 l3 9 M50 6 l4 8" stroke-width="1.6"/>
-              <path d="M-8 44 C -40 62, -70 58, -92 38 C -62 34, -34 36, -8 44 Z M8 44 C 40 62, 70 58, 92 38 C 62 34, 34 36, 8 44 Z" stroke-width="2.2"/>
-              <path d="M-80 41 C -56 44, -32 44, -10 44 M80 41 C 56 44, 32 44, 10 44" stroke-width="1.2"/>
-              <path d="M0 -92 L0 -112 M-8 -104 L8 -104" stroke-width="2.6"/>
-            </g>
-          </g>
-          <!-- Mandala (se genera en app.js) -->
-          <g data-design="mandala" transform="translate(214 386) scale(.8)">
-            <g class="ink ink--k" id="mandalaInk"></g>
-          </g>
-        </g>
-      </svg>
-      <div class="lab__frost"></div>
-    </div>
-    <button class="lab__hold" type="button"><span data-i18n="lab.hold">Mantén pulsado para ver el antes</span></button>
-    <span class="lab__badge" data-i18n="lab.badge">Simulación orientativa</span>
-    <span class="lab__tip" data-i18n="lab.tip">Dispara sobre el tatuaje</span>
-  </div>
-  <div class="lab__panel">
-    <p class="eyebrow" data-reveal><span data-i18n="lab.kicker">Simulador láser</span></p>
-    <h2 class="h2" data-reveal><span data-i18n="lab.title">Mira cómo se <em>desvanece</em>.</span></h2>
-    <p class="lead" data-reveal data-i18n="lab.lead">Cada sesión fragmenta la tinta en partículas diminutas que tu cuerpo elimina de forma natural. Elige un tatuaje, mueve el control o dispara directamente sobre la piel.</p>
-    <div class="designs" role="radiogroup" aria-label="Tatuaje" data-reveal>
-      <button type="button" class="design" role="radio" data-d="vida"><b data-i18n="lab.d1">Viva la vida</b><small data-i18n="lab.d1s">Lettering · negro</small></button>
-      <button type="button" class="design" role="radio" data-d="corazon"><b data-i18n="lab.d2">Sagrado corazón</b><small data-i18n="lab.d2s">Color · tradicional</small></button>
-      <button type="button" class="design" role="radio" data-d="mandala"><b data-i18n="lab.d3">Mandala</b><small data-i18n="lab.d3s">Línea fina · dotwork</small></button>
-    </div>
-    <div class="lab__info" data-reveal>
-      <span class="lab__index">00 / 10</span>
-      <h3 class="lab__name">&nbsp;</h3>
-      <p class="lab__desc">&nbsp;</p>
-    </div>
-    <label class="range" data-reveal>
-      <span data-i18n="lab.sessions">Sesiones</span>
-      <input type="range" min="0" max="10" step="1" value="0" id="labRange">
-    </label>
-    <ul class="lab__facts" data-reveal>
-      <li><small data-i18n="lab.f1">Intervalo</small><span data-i18n="lab.f1v">6–8 semanas</span></li>
-      <li><small data-i18n="lab.f2">Por sesión</small><span data-i18n="lab.f2v">10–30 min</span></li>
-      <li><small data-i18n="lab.f3">Tiempo total</small><span class="lab__months">—</span></li>
+    <ul class="legend" aria-label="Color y técnica">
+      <li><span class="dot dot--laser"></span><span data-i18n="fam.laser">Láser</span></li>
+      <li><span class="dot dot--micro"></span><span data-i18n="fam.micro">Micropigmentación</span></li>
+      <li><span class="dot dot--mirada"></span><span data-i18n="fam.mirada">Mirada y manos</span></li>
+      <li><span class="dot dot--cuidado"></span><span data-i18n="fam.cuidado">Facial y corporal</span></li>
     </ul>
-    <a class="btn btn--ink magnetic" href="#" id="labCta" target="_blank" rel="noopener" data-reveal><span data-i18n="lab.cta">Pide tu valoración</span><svg class="ico" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-  </div>
-</section>
+    <div class="belt" id="belt">
+      <div class="belt__track" aria-hidden="true"></div>
+      <div class="belt__center" id="pick" aria-live="polite"></div>
+    </div>
+    <p class="carta__note" data-i18n="c.note">Sesiones y duraciones orientativas: las ajustamos contigo en una valoración personal.</p>
+  </section>
 
-<!-- ============ PLAN BUILDER ============ -->
-<section class="ritual" id="plan">
-  <div class="ritual__intro">
-    <p class="eyebrow" data-reveal><span data-i18n="plan.kicker">Tu plan</span></p>
-    <h2 class="h2" data-reveal><span data-i18n="plan.title">Crea tu <em>plan</em> en tres pasos.</span></h2>
-    <p class="lead" data-reveal data-i18n="plan.lead">Cuéntanos qué buscas y te proponemos un plan orientativo que afinaremos contigo en una valoración personal.</p>
-  </div>
+  <!-- ============ MICROPIGMENTACIÓN ============ -->
+  <section class="micro" id="micropigmentacion">
+    <figure class="micro__a"><img src="https://images.unsplash.com/photo-1785860945533-918a531bcdeb?auto=format&fit=crop&w=1200&q=75" alt="Diseño de cejas con micropigmentación" loading="lazy" width="1200" height="1600"></figure>
+    <div class="micro__txt">
+      <h2 class="h2" data-i18n="m.title">Micropigmentación</h2>
+      <p class="lead" data-i18n="m.lead">Dibujamos cada trazo sobre tu rostro antes de empezar. Medimos, proponemos y solo pigmentamos cuando te encanta.</p>
+      <ul class="micro__list">
+        <li><span data-i18n="m.1.t">Cejas pelo a pelo</span><b data-i18n="m.meta">1 sesión + retoque</b><small data-i18n="m.1.d">Diseño previo a mano y trazos finos que imitan el pelo natural.</small></li>
+        <li><span data-i18n="m.2.t">Labios</span><b data-i18n="m.meta">1 sesión + retoque</b><small data-i18n="m.2.d">Color y contorno definidos con un acabado natural que dura.</small></li>
+        <li><span data-i18n="m.3.t">Eyeliner</span><b data-i18n="m.meta">1 sesión + retoque</b><small data-i18n="m.3.d">Una línea fina que realza tu mirada desde que te despiertas.</small></li>
+      </ul>
+      <blockquote><p>«Mis favoritas! Un encanto de chicas, te hacen sentir súper cómoda y hacen un trabajo genial. Recomendado al 100.»</p><cite>Iris V., Google</cite></blockquote>
+    </div>
+    <figure class="micro__b"><img src="https://images.unsplash.com/photo-1654374504608-67c4cfe65fca?auto=format&fit=crop&w=1000&q=75" alt="Labios en tono nude" loading="lazy" width="1000" height="750"></figure>
+    <figure class="micro__c"><img src="https://images.unsplash.com/photo-1594715271011-63c18acf1489?auto=format&fit=crop&w=900&q=75" alt="Mirada con cejas definidas" loading="lazy" width="900" height="1200"></figure>
+  </section>
 
-  <div class="ritual__grid">
-    <form class="ritual__steps" onsubmit="return false">
-      <fieldset class="step" data-reveal>
-        <legend><span class="step__n">01</span><span data-i18n="plan.q1">¿Qué te gustaría conseguir?</span></legend>
-        <div class="chips">
-          <label class="chip"><input type="radio" name="goal" value="borrar"><span data-i18n="plan.goal.borrar">Borrar o aclarar un tatuaje</span></label>
-          <label class="chip"><input type="radio" name="goal" value="cejas"><span data-i18n="plan.goal.cejas">Cejas, labios o eyeliner</span></label>
-          <label class="chip"><input type="radio" name="goal" value="vello"><span data-i18n="plan.goal.vello">Piel libre de vello</span></label>
-          <label class="chip"><input type="radio" name="goal" value="piel"><span data-i18n="plan.goal.piel">Piel luminosa y sin manchas</span></label>
-          <label class="chip"><input type="radio" name="goal" value="detalles"><span data-i18n="plan.goal.detalles">Pestañas y uñas impecables</span></label>
-        </div>
-      </fieldset>
-      <fieldset class="step" data-reveal>
-        <legend><span class="step__n">02</span><span data-i18n="plan.q2">¿Cómo es tu piel?</span></legend>
-        <div class="chips">
-          <label class="chip"><input type="radio" name="skin" value="clara"><span data-i18n="plan.skin.clara">Clara</span></label>
-          <label class="chip"><input type="radio" name="skin" value="media"><span data-i18n="plan.skin.media">Media</span></label>
-          <label class="chip"><input type="radio" name="skin" value="morena"><span data-i18n="plan.skin.morena">Morena u oscura</span></label>
-          <label class="chip"><input type="radio" name="skin" value="sensible"><span data-i18n="plan.skin.sensible">Sensible</span></label>
-        </div>
-      </fieldset>
-      <fieldset class="step" data-reveal>
-        <legend><span class="step__n">03</span><span data-i18n="plan.q3">¿Es tu primera vez?</span></legend>
-        <div class="chips">
-          <label class="chip"><input type="radio" name="first" value="primera"><span data-i18n="plan.first.primera">Sí, es mi primera vez</span></label>
-          <label class="chip"><input type="radio" name="first" value="retoque"><span data-i18n="plan.first.retoque">Busco un retoque</span></label>
-          <label class="chip"><input type="radio" name="first" value="correccion"><span data-i18n="plan.first.correccion">Corregir un trabajo anterior</span></label>
-        </div>
-      </fieldset>
-    </form>
+  <!-- ============ LÁSER ============ -->
+  <section class="lz" id="laser">
+    <div class="lz__txt">
+      <h2 class="h2" data-i18n="l.title">Láser, sesión a sesión.</h2>
+      <p class="lead" data-i18n="l.lead">Borramos tatuajes, eliminamos el vello y unificamos el tono de tu piel con parámetros adaptados a tu fototipo.</p>
+      <ul class="lz__list">
+        <li><span data-i18n="svc.1.t">Eliminación de tatuajes</span><b>≈ 6–10</b></li>
+        <li><span data-i18n="svc.3.t">Depilación láser</span><b>≈ 6–8</b></li>
+        <li><span data-i18n="svc.4.t">Carbon Peel</span><b>≈ 3–5</b></li>
+        <li><span data-i18n="svc.5.t">Manchas</span><b>≈ 3–5</b></li>
+      </ul>
+      <p class="lz__unit" data-i18n="l.unit">Número orientativo de sesiones: lo confirmamos en tu valoración.</p>
+      <a class="btn btn--line" href="#simulador"><span data-i18n="cta.sim">Probar el simulador</span></a>
+    </div>
+    <figure class="lz__a"><img src="https://images.unsplash.com/photo-1761718209835-c8586b7dcac0?auto=format&fit=crop&w=1100&q=75" alt="Tratamiento facial con aparatología" loading="lazy" width="1100" height="1467"></figure>
+    <figure class="lz__b"><img src="https://images.unsplash.com/photo-1700760933574-9f0f4ea9aa3b?auto=format&fit=crop&w=900&q=75" alt="Depilación láser en la pierna" loading="lazy" width="900" height="1200"></figure>
+  </section>
 
-    <aside class="ritual__card" aria-live="polite">
-      <svg class="ritual__leaf" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="14"/><path d="M100 86C92 64 96 44 100 30c4 14 8 34 0 56M114 100c22-8 42-4 56 0-14 4-34 8-56 0M100 114c8 22 4 42 0 56-4-14-8-34 0-56M86 100c-22 8-42 4-56 0 14-4 34-8 56 0M110 90c14-18 32-26 46-30-6 14-14 32-36 40M110 110c18 14 26 32 30 46-14-6-32-14-40-36M90 110c-14 18-32 26-46 30 6-14 14-32 36-40M90 90C72 76 64 58 60 44c14 6 32 14 40 36"/></svg>
-      <div class="ritual__progress"><i></i><i></i><i></i></div>
-      <div class="ritual__out">
-        <p class="ritual__kicker">&nbsp;</p>
-        <h3 class="ritual__name">&nbsp;</h3>
-        <p class="ritual__desc">&nbsp;</p>
-        <ol class="ritual__list"></ol>
-        <div class="ritual__tags"></div>
-        <div class="ritual__meta"></div>
+  <!-- ============ SIMULADOR LÁSER ============ -->
+  <section class="sim" id="simulador">
+    <div class="sim__head">
+      <h2 class="h2"><span data-i18n="lab.title">Mira cómo se <em>desvanece</em>.</span></h2>
+      <p class="lead" data-i18n="lab.lead">Cada sesión fragmenta la tinta en partículas diminutas que tu cuerpo elimina de forma natural. Elige un tatuaje, mueve el control o dispara directamente sobre la piel.</p>
+    </div>
+    <div class="sim__grid">
+      <div class="sim__info">
+        <div class="designs" role="radiogroup" aria-label="Tatuaje">
+          <button type="button" class="design" role="radio" data-d="vida"><b data-i18n="lab.d1">Viva la vida</b><small data-i18n="lab.d1s">Lettering · negro</small></button>
+          <button type="button" class="design" role="radio" data-d="corazon"><b data-i18n="lab.d2">Sagrado corazón</b><small data-i18n="lab.d2s">Color · tradicional</small></button>
+          <button type="button" class="design" role="radio" data-d="mandala"><b data-i18n="lab.d3">Mandala</b><small data-i18n="lab.d3s">Línea fina · dotwork</small></button>
+        </div>
+        <div class="lab__info">
+          <span class="lab__index">00 / 10</span>
+          <h3 class="lab__name">&nbsp;</h3>
+          <p class="lab__desc">&nbsp;</p>
+        </div>
       </div>
-      <a class="btn btn--paper magnetic ritual__cta is-disabled" href="#" target="_blank" rel="noopener"><span data-i18n="plan.cta">Reservar valoración</span><svg class="ico" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    </aside>
-  </div>
-</section>
 
-<!-- ============ STUDIO ============ -->
-<section class="eco" id="estudio">
-  <div class="eco__sticky">
-    <p class="eyebrow"><span data-i18n="std.kicker">El estudio</span></p>
-    <h2 class="h2"><span data-i18n="std.title">Precisión técnica, <em>trato de casa</em>.</span></h2>
-    <svg class="eco__draw" viewBox="0 0 300 420" aria-hidden="true">
-      <path class="draw" d="M150 410 C148 340 154 290 150 230"/>
-      <path class="draw" d="M150 360 C120 352 92 330 78 300 C104 304 132 322 150 340"/>
-      <path class="draw" d="M150 320 C180 312 206 292 222 262 C196 266 168 284 150 302"/>
-      <path class="draw" d="M150 230 C112 232 82 206 80 170 C80 132 112 104 150 104 C188 104 220 132 220 170 C218 206 188 232 150 230"/>
-      <path class="draw" d="M150 104 C130 70 140 42 150 26 C160 42 170 70 150 104"/>
-      <path class="draw" d="M106 120 C78 98 76 70 82 52 C100 60 120 80 122 110"/>
-      <path class="draw" d="M194 120 C222 98 224 70 218 52 C200 60 180 80 178 110"/>
-      <path class="draw" d="M150 200 C126 200 108 186 108 166 C108 146 126 132 150 132 C174 132 192 146 192 166 C192 186 174 200 150 200"/>
-      <path class="draw" d="M150 182 C138 182 128 176 128 166 C128 156 138 150 150 150 C162 150 172 156 172 166 C172 176 162 182 150 182"/>
-      <path class="draw" d="M150 132 C142 146 142 156 150 166 C158 156 158 146 150 132"/>
-    </svg>
-  </div>
-  <div class="eco__list">
-    <article class="pillar">
-      <div class="pillar__img"><img loading="lazy" src="https://images.unsplash.com/photo-1783110782727-b1b79df0c06f?auto=format&fit=crop&w=1100&q=75" alt="Manos enguantadas trazando el diseño de una ceja"></div>
-      <span class="pillar__n">01</span>
-      <h3 data-i18n="std.1.t">Diseño a medida</h3>
-      <p data-i18n="std.1.d">Cada ceja, cada labio y cada línea se dibuja antes sobre tu rostro. Medimos, proponemos y solo empezamos cuando te encanta.</p>
-    </article>
-    <article class="pillar">
-      <div class="pillar__img"><img loading="lazy" src="https://images.unsplash.com/photo-1761718209835-c8586b7dcac0?auto=format&fit=crop&w=1100&q=75" alt="Aplicación de tratamiento facial con brocha"></div>
-      <span class="pillar__n">02</span>
-      <h3 data-i18n="std.2.t">Tecnología láser</h3>
-      <p data-i18n="std.2.d">Equipos actuales para eliminar tatuajes, vello y manchas con resultados progresivos, adaptados a tu piel.</p>
-    </article>
-    <article class="pillar">
-      <div class="pillar__img"><img loading="lazy" src="https://images.unsplash.com/photo-1786937680099-779e1da6f7f7?auto=format&fit=crop&w=1100&q=75" alt="Estanterías con productos de cuidado facial"></div>
-      <span class="pillar__n">03</span>
-      <h3 data-i18n="std.3.t">Higiene sin concesiones</h3>
-      <p data-i18n="std.3.d">Material de un solo uso, protocolos estrictos de limpieza y productos de primera calidad en cada tratamiento.</p>
-    </article>
-    <article class="pillar">
-      <div class="pillar__img"><img loading="lazy" src="https://images.unsplash.com/photo-1731514721772-329626f84c8b?auto=format&fit=crop&w=1100&q=75" alt="Sala de espera luminosa"></div>
-      <span class="pillar__n">04</span>
-      <h3 data-i18n="std.4.t">Como en casa</h3>
-      <p data-i18n="std.4.d">Un espacio cercano y tranquilo. Nuestras clientas lo repiten: aquí te sientes cómoda desde el primer minuto.</p>
-    </article>
-  </div>
-</section>
+      <div class="lab__stage" data-cursor="+1">
+        <div class="lab__img" id="labImg">
+          <img loading="lazy" src="https://images.unsplash.com/photo-1651135476167-34e4cce7134d?auto=format&fit=crop&w=1200&q=80" alt="Espalda de mujer con un tatuaje simulado" width="1200" height="1800">
+          <svg class="lab__ink" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <filter id="inkErode" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+                <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="noise"/>
+                <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.4 0 0 0 0" result="na"/>
+                <feComponentTransfer in="na" result="mask"><feFuncA id="erodeFn" type="linear" slope="5" intercept="1"/></feComponentTransfer>
+                <feComposite in="SourceGraphic" in2="mask" operator="in" result="eroded"/>
+                <feGaussianBlur in="eroded" stdDeviation=".45" id="erodeBlur"/>
+              </filter>
+            </defs>
+            <g class="lab__art" filter="url(#inkErode)">
+              <!-- Viva la vida -->
+              <g data-design="vida" transform="translate(214 392) rotate(-7)">
+                <g class="ink ink--k">
+                  <text x="0" y="0" text-anchor="middle" font-family="Pinyon Script, cursive" font-size="50" fill="#16100f">Viva la vida</text>
+                  <path d="M-96 18 C -50 30, 40 8, 98 20" fill="none" stroke="#16100f" stroke-width="1.4" stroke-linecap="round"/>
+                  <path d="M-4 -52 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3z" fill="#16100f"/>
+                  <circle cx="-20" cy="-40" r="1.6" fill="#16100f"/><circle cx="14" cy="-44" r="1.2" fill="#16100f"/><circle cx="104" cy="12" r="1.6" fill="#16100f"/><circle cx="-102" cy="12" r="1.2" fill="#16100f"/>
+                </g>
+              </g>
+              <!-- Sagrado corazón -->
+              <g data-design="corazon" transform="translate(214 398) scale(.92)">
+                <g class="ink ink--g">
+                  <path d="M-8 44 C -40 62, -70 58, -92 38 C -62 34, -34 36, -8 44 Z" fill="#2E7A4E"/>
+                  <path d="M8 44 C 40 62, 70 58, 92 38 C 62 34, 34 36, 8 44 Z" fill="#2E7A4E"/>
+                </g>
+                <g class="ink ink--y">
+                  <path d="M-16 -46 C -24 -62, -8 -70, -12 -90 C 0 -80, 4 -72, 2 -62 C 8 -68, 10 -78, 8 -88 C 22 -74, 22 -58, 16 -46 Z" fill="#F2B233"/>
+                  <path d="M-8 -46 C -10 -56, -2 -60, -3 -70 C 4 -64, 6 -58, 4 -50 C 7 -54, 8 -58, 8 -62 C 13 -56, 12 -50, 9 -46 Z" fill="#E4632A"/>
+                </g>
+                <g class="ink ink--r">
+                  <path d="M0 52 C -66 14, -80 -30, -50 -50 C -28 -64, -8 -54, 0 -40 C 8 -54, 28 -64, 50 -50 C 80 -30, 66 14, 0 52 Z" fill="#C2232F"/>
+                  <path d="M-36 -38 C -50 -30, -52 -14, -46 -2" fill="none" stroke="#F4A7A7" stroke-width="5" stroke-linecap="round" opacity=".7"/>
+                </g>
+                <g class="ink ink--k" fill="none" stroke="#16100f" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M0 52 C -66 14, -80 -30, -50 -50 C -28 -64, -8 -54, 0 -40 C 8 -54, 28 -64, 50 -50 C 80 -30, 66 14, 0 52 Z" stroke-width="3.2"/>
+                  <path d="M-16 -46 C -24 -62, -8 -70, -12 -90 C 0 -80, 4 -72, 2 -62 C 8 -68, 10 -78, 8 -88 C 22 -74, 22 -58, 16 -46" stroke-width="2.4"/>
+                  <path d="M-66 -6 C -30 6, 30 6, 66 -6" stroke-width="2.2"/>
+                  <path d="M-64 2 C -30 14, 30 14, 64 2" stroke-width="2.2"/>
+                  <path d="M-56 -3 l-4 -8 M-42 1 l-2 -9 M-28 4 l-1 -9 M-14 5 l0 -9 M0 6 l1 -9 M14 5 l2 -9 M28 4 l3 -9 M42 1 l4 -8 M56 -3 l5 -7 M-48 6 l-3 9 M-34 9 l-1 9 M-20 11 l0 9 M-6 12 l1 9 M8 12 l2 9 M22 11 l2 9 M36 9 l3 9 M50 6 l4 8" stroke-width="1.6"/>
+                  <path d="M-8 44 C -40 62, -70 58, -92 38 C -62 34, -34 36, -8 44 Z M8 44 C 40 62, 70 58, 92 38 C 62 34, 34 36, 8 44 Z" stroke-width="2.2"/>
+                  <path d="M-80 41 C -56 44, -32 44, -10 44 M80 41 C 56 44, 32 44, 10 44" stroke-width="1.2"/>
+                  <path d="M0 -92 L0 -112 M-8 -104 L8 -104" stroke-width="2.6"/>
+                </g>
+              </g>
+              <!-- Mandala (se genera en app.js) -->
+              <g data-design="mandala" transform="translate(214 386) scale(.8)">
+                <g class="ink ink--k" id="mandalaInk"></g>
+              </g>
+            </g>
+          </svg>
+          <div class="lab__frost"></div>
+        </div>
+        <button class="lab__hold" type="button"><span data-i18n="lab.hold">Mantén pulsado para ver el antes</span></button>
+        <span class="lab__badge" data-i18n="lab.badge">Simulación orientativa</span>
+        <span class="lab__tip" data-i18n="lab.tip">Dispara sobre el tatuaje</span>
+      </div>
 
-<!-- ============ REVIEWS ============ -->
-<section class="reviews" id="opiniones">
-  <div class="reviews__head">
-    <p class="eyebrow" data-reveal><span data-i18n="rev.kicker">Opiniones</span></p>
-    <div class="score" data-reveal>
-      <span class="score__num" data-count="4.7">0,0</span>
-      <div class="score__side">
-        <span class="score__stars" aria-hidden="true"><span class="score__fill">★★★★★</span>★★★★★</span>
-        <span data-i18n="rev.count">18 opiniones en Google</span>
+      <div class="sim__ctrl">
+        <label class="range">
+          <span data-i18n="lab.sessions">Sesiones</span>
+          <input type="range" min="0" max="10" step="1" value="0" id="labRange">
+        </label>
+        <ul class="lab__facts">
+          <li><small data-i18n="lab.f1">Intervalo</small><span data-i18n="lab.f1v">6–8 semanas</span></li>
+          <li><small data-i18n="lab.f2">Por sesión</small><span data-i18n="lab.f2v">10–30 min</span></li>
+          <li><small data-i18n="lab.f3">Tiempo total</small><span class="lab__months">—</span></li>
+        </ul>
+        <a class="btn btn--laser" href="#" id="labCta" target="_blank" rel="noopener"><span data-i18n="lab.cta">Pide tu valoración</span></a>
       </div>
     </div>
-  </div>
-  <div class="marquee" data-reveal>
-    <div class="marquee__track">
-      <figure class="rcard"><blockquote>“Mis favoritas! Un encanto de chicas, te hacen sentir súper cómoda y hacen un trabajo genial. Recomendado al 100.”</blockquote><figcaption><b>Iris V.</b><span>Local Guide · Google</span></figcaption></figure>
-      <figure class="rcard"><blockquote>“Estoy muy contenta con el trato y atención recibida. He regalado tratamientos a familiares y amigos, y han salido encantados.”</blockquote><figcaption><b>Yolanda P.</b><span>Google</span></figcaption></figure>
-      <figure class="rcard"><blockquote>“Tanto Silvana como Eva son personas excepcionales. Lugar muy cercano y profesional. ¡Recomendado 100%!”</blockquote><figcaption><b>Jessica Z.</b><span>Google</span></figcaption></figure>
-      <figure class="rcard"><blockquote>“Trato excelente y cercano, me han hecho sentir súper cómoda. ¡Me ha encantado!”</blockquote><figcaption><b>Paqui V.</b><span>Google</span></figcaption></figure>
-      <figure class="rcard"><blockquote>“Grandes profesionales y más personas. ¡Muy humanas y empáticas!”</blockquote><figcaption><b>Marta R.</b><span>Local Guide · Google</span></figcaption></figure>
-      <figure class="rcard"><blockquote>“Todos los tratamientos son fantásticos y te hacen sentir como en casa.”</blockquote><figcaption><b>Montserrat N.</b><span>Google</span></figcaption></figure>
-      <figure class="rcard"><blockquote>“Profesionales tan buenas y eficientes a la par de simpáticas… he salido encantada con mis uñas.”</blockquote><figcaption><b>Vanessa L.</b><span>Local Guide · Google</span></figcaption></figure>
-    </div>
-  </div>
-  <p class="reviews__note" data-i18n="rev.note">Opiniones reales publicadas en Google Maps.</p>
-</section>
+  </section>
 
-<!-- ============ GALLERY ============ -->
-<section class="gallery">
-  <div class="gallery__head">
-    <h2 class="h2" data-reveal><span data-i18n="gal.title">Hecho en <em>Frida</em></span></h2>
-    <a class="btn btn--line magnetic" href="https://www.instagram.com/frida_bellessa/" target="_blank" rel="noopener" data-reveal>
-      <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6"/></svg>@frida_bellessa
-    </a>
-  </div>
-  <div class="gallery__grid">
-    <a class="g g--1" href="https://www.instagram.com/frida_bellessa/" target="_blank" rel="noopener" data-cursor="IG"><img loading="lazy" src="https://images.unsplash.com/photo-1606161705914-791f93c9a501?auto=format&fit=crop&w=900&q=75" alt="Retrato con flores sobre fondo rosa"></a>
-    <a class="g g--2" href="https://www.instagram.com/frida_bellessa/" target="_blank" rel="noopener" data-cursor="IG"><img loading="lazy" src="https://images.unsplash.com/photo-1639629509821-c54cdd984227?auto=format&fit=crop&w=900&q=75" alt="Primer plano de pestañas largas"></a>
-    <a class="g g--3" href="https://www.instagram.com/frida_bellessa/" target="_blank" rel="noopener" data-cursor="IG"><img loading="lazy" src="https://images.unsplash.com/photo-1654374504608-67c4cfe65fca?auto=format&fit=crop&w=900&q=75" alt="Labios en tono nude"></a>
-    <a class="g g--4" href="https://www.instagram.com/frida_bellessa/" target="_blank" rel="noopener" data-cursor="IG"><img loading="lazy" src="https://images.unsplash.com/photo-1594715271011-63c18acf1489?auto=format&fit=crop&w=900&q=75" alt="Mirada con cejas definidas"></a>
-    <a class="g g--5" href="https://www.instagram.com/frida_bellessa/" target="_blank" rel="noopener" data-cursor="IG"><img loading="lazy" src="https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=900&q=75" alt="Manicura en el estudio"></a>
-  </div>
-</section>
-
-<!-- ============ VISIT ============ -->
-<section class="visit" id="visitanos">
-  <div class="visit__info">
-    <p class="eyebrow" data-reveal><span data-i18n="vis.kicker">Visítanos</span></p>
-    <h2 class="h2" data-reveal><span data-i18n="vis.title">Te esperamos en <em>Lloret</em>.</span></h2>
-    <span class="status status--lg" data-status data-reveal><i></i><span class="status__text">&nbsp;</span></span>
-    <ul class="hours" data-reveal></ul>
-    <dl class="contact" data-reveal>
-      <div><dt data-i18n="vis.addr">Dirección</dt><dd>Av. de Vidreres, 159<br>17310 Lloret de Mar, Girona</dd></div>
-      <div><dt data-i18n="vis.phone">Citas</dt><dd><a href="https://wa.me/34672874616" target="_blank" rel="noopener">672 87 46 16</a><br><span class="contact__note" data-i18n="vis.onlyWa">Solo por WhatsApp</span></dd></div>
-    </dl>
-    <div class="visit__ctas" data-reveal>
-      <a class="btn btn--ink magnetic" href="https://www.google.com/maps/dir/?api=1&destination=FRIDA%20BELLESA%20Av.%20de%20Vidreres%20159%20Lloret%20de%20Mar" target="_blank" rel="noopener"><span data-i18n="vis.route">Cómo llegar</span></a>
-      <a class="btn btn--line magnetic" href="#" data-wa target="_blank" rel="noopener">WhatsApp</a>
-      <a class="btn btn--line magnetic" href="https://www.instagram.com/frida_bellessa/" target="_blank" rel="noopener">Instagram</a>
+  <!-- ============ ESTUDIO ============ -->
+  <section class="studio" id="estudio">
+    <figure class="studio__fig"><img src="https://images.unsplash.com/photo-1731514721772-329626f84c8b?auto=format&fit=crop&w=1200&q=75" alt="Sala de espera luminosa" loading="lazy" width="1200" height="1600"></figure>
+    <div class="studio__txt">
+      <h2 class="h2"><span data-i18n="std.title">Precisión técnica, <em>trato de casa</em>.</span></h2>
+      <p class="lead" data-i18n="man.text">En Frida creemos que tu piel cuenta tu historia, y que tú decides cómo se escribe. Diseñamos cejas, labios y miradas que te acompañan cada mañana, y con tecnología láser borramos lo que ya no te representa. Todo en un estudio cercano, donde te sentirás como en casa.</p>
+      <ol class="studio__list">
+        <li><h3 data-i18n="std.1.t">Diseño a medida</h3><p data-i18n="std.1.d">Cada ceja, cada labio y cada línea se dibuja antes sobre tu rostro. Medimos, proponemos y solo empezamos cuando te encanta.</p></li>
+        <li><h3 data-i18n="std.2.t">Tecnología láser</h3><p data-i18n="std.2.d">Equipos actuales para eliminar tatuajes, vello y manchas con resultados progresivos, adaptados a tu piel.</p></li>
+        <li><h3 data-i18n="std.3.t">Higiene sin concesiones</h3><p data-i18n="std.3.d">Material de un solo uso, protocolos estrictos de limpieza y productos de primera calidad en cada tratamiento.</p></li>
+        <li><h3 data-i18n="std.4.t">Como en casa</h3><p data-i18n="std.4.d">Un espacio cercano y tranquilo. Nuestras clientas lo repiten: aquí te sientes cómoda desde el primer minuto.</p></li>
+      </ol>
     </div>
-  </div>
-  <div class="visit__map" data-reveal>
-    <iframe title="Mapa Frida Bellesa" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=FRIDA%20BELLESA%2C%20Av.%20de%20Vidreres%20159%2C%20Lloret%20de%20Mar&z=16&output=embed"></iframe>
-  </div>
-</section>
+  </section>
+
+  <!-- ============ OPINIONES ============ -->
+  <section class="reviews" id="opiniones" aria-labelledby="revT">
+    <div class="reviews__head">
+      <h2 class="h2" id="revT" data-i18n="rev.title">Clientas que repiten.</h2>
+      <p class="score"><span class="stars" aria-hidden="true">★★★★★</span><b data-num="4.7">4,7</b><span data-i18n="rev.count">18 opiniones en Google</span></p>
+    </div>
+    <div class="reviews__row">
+      <figure class="rv"><p>«Estoy muy contenta con el trato y atención recibida. He regalado tratamientos a familiares y amigos, y han salido encantados.»</p><cite>Yolanda P., Google</cite></figure>
+      <figure class="rv"><p>«Tanto Silvana como Eva son personas excepcionales. Lugar muy cercano y profesional. ¡Recomendado 100%!»</p><cite>Jessica Z., Google</cite></figure>
+      <figure class="rv"><p>«Profesionales tan buenas y eficientes a la par de simpáticas… he salido encantada con mis uñas.»</p><cite>Vanessa L., Local Guide · Google</cite></figure>
+      <figure class="rv"><p>«Trato excelente y cercano, me han hecho sentir súper cómoda. ¡Me ha encantado!»</p><cite>Paqui V., Google</cite></figure>
+      <figure class="rv"><p>«Grandes profesionales y más personas. ¡Muy humanas y empáticas!»</p><cite>Marta R., Local Guide · Google</cite></figure>
+      <figure class="rv"><p>«Todos los tratamientos son fantásticos y te hacen sentir como en casa.»</p><cite>Montserrat N., Google</cite></figure>
+    </div>
+    <p class="reviews__note" data-i18n="rev.note">Opiniones reales publicadas en Google Maps.</p>
+  </section>
+
+  <!-- ============ VISÍTANOS ============ -->
+  <section class="visit" id="visitanos">
+    <div class="visit__txt">
+      <h2 class="h2">Av. de Vidreres, <em>Lloret de Mar</em></h2>
+      <dl>
+        <div><dt data-i18n="v.h">Horario</dt><dd><span data-i18n="v.h.v">Lunes a viernes, de 10:00 a 19:00<br>Sábado y domingo, cerrado</span><span class="status" data-status><i></i><span class="status__text">&nbsp;</span></span></dd></div>
+        <div><dt data-i18n="v.r">Citas</dt><dd><a href="https://wa.me/34672874616" target="_blank" rel="noopener">672 87 46 16</a> · <span data-i18n="v.only">Solo por WhatsApp</span></dd></div>
+        <div><dt data-i18n="v.a">Dirección</dt><dd>Av. de Vidreres, 159 · 17310 Lloret de Mar, Girona</dd></div>
+        <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/frida_bellessa/" target="_blank" rel="noopener">@frida_bellessa</a></dd></div>
+      </dl>
+      <div class="visit__cta">
+        <a class="btn btn--laser" href="#" data-wa target="_blank" rel="noopener"><i class="ph-light ph-whatsapp-logo" aria-hidden="true"></i><span data-i18n="cta.bookLong">Pedir cita por WhatsApp</span></a>
+        <a class="btn btn--line" href="https://www.google.com/maps/dir/?api=1&destination=FRIDA%20BELLESA%20Av.%20de%20Vidreres%20159%20Lloret%20de%20Mar" target="_blank" rel="noopener"><span data-i18n="cta.route">Cómo llegar</span></a>
+      </div>
+    </div>
+    <figure class="visit__fig">
+      <iframe title="Mapa Frida Bellesa" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=FRIDA%20BELLESA%2C%20Av.%20de%20Vidreres%20159%2C%20Lloret%20de%20Mar&z=16&output=embed"></iframe>
+    </figure>
+  </section>
 
 </main>
 
-<!-- ============ FOOTER ============ -->
-<footer class="footer">
-  <a class="footer__cta" href="#" data-wa target="_blank" rel="noopener">
-    <span class="footer__small" data-i18n="foot.small">¿Empezamos?</span>
-    <span class="footer__big"><span data-i18n="foot.big">Pide tu cita</span> <svg class="ico" viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
-  </a>
-  <div class="footer__mark" aria-hidden="true"><span>Frida</span><b>BELLESA</b></div>
-  <div class="footer__bottom">
-    <span>© 2026 Frida Bellesa · <span data-i18n="foot.tag">Permanent make up, láser y estética</span></span>
-    <span>Av. de Vidreres, 159 · Lloret de Mar</span>
-    <a href="https://www.instagram.com/frida_bellessa/" target="_blank" rel="noopener">Instagram</a>
-  </div>
+<footer class="foot">
+  <p>Frida Bellesa · <span data-i18n="foot.tag">Permanent make up, láser y estética</span> · Lloret de Mar</p>
+  <p>© 2026 · <a href="https://www.instagram.com/frida_bellessa/" target="_blank" rel="noopener">Instagram</a></p>
 </footer>
 
-<a class="wa-fab" href="#" data-wa target="_blank" rel="noopener" aria-label="WhatsApp">
-  <svg viewBox="0 0 24 24"><path d="M20.5 3.5A11 11 0 0 0 3.2 17.1L2 22l5-1.3A11 11 0 0 0 20.5 3.5Zm-8.4 17a9 9 0 0 1-4.6-1.3l-.3-.2-3 .8.8-2.9-.2-.3a9 9 0 1 1 7.3 3.9Zm5-6.7c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1l-.8 1c-.2.2-.3.2-.6.1a7.4 7.4 0 0 1-3.7-3.2c-.3-.5.3-.5.8-1.6.1-.2 0-.3 0-.5l-.9-2c-.2-.6-.5-.5-.6-.5h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-1 2.3 5.3 5.3 0 0 0 1.1 2.8 12 12 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.9-1.3c.2-.6.2-1.1.2-1.3-.1-.1-.3-.2-.5-.3Z"/></svg>
-</a>
+<a class="wa-fab" href="#" data-wa target="_blank" rel="noopener" aria-label="WhatsApp"><i class="ph-light ph-whatsapp-logo" aria-hidden="true"></i></a>
 
 <!-- contador de texto borrado -->
 <div class="zap-pill" data-nozap aria-live="polite">

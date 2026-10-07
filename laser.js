@@ -21,7 +21,7 @@ const T = {
 const tr = () => T[document.documentElement.lang] || T.es;
 
 // donde NO se borra: controles, enlaces y piezas del propio láser
-const NOZAP = 'a,button,input,label,select,textarea,option,summary,[contenteditable],[data-nozap],.laser,.loader,.lab__stage,.zap-pill,iframe,script,style';
+const NOZAP = 'a,button,input,label,select,textarea,option,summary,[contenteditable],[data-nozap],.laser,.intro,.lab__stage,.zap-pill,iframe,script,style';
 const INTERACTIVE = 'a,button,label,input,select,textarea,summary,[data-cursor]';
 
 /* ----------------------------------------------------------
@@ -63,8 +63,8 @@ function tick(now) {
       const grd = ctx.createRadialGradient(g.x, g.y, 0, g.x, g.y, r);
       grd.addColorStop(0, `rgba(255,255,255,${a})`);
       grd.addColorStop(.22, `rgba(255,220,226,${a * .85})`);
-      grd.addColorStop(.55, `rgba(255,46,77,${a * .28})`);
-      grd.addColorStop(1, 'rgba(255,46,77,0)');
+      grd.addColorStop(.55, `rgba(255,77,121,${a * .28})`);
+      grd.addColorStop(1, 'rgba(255,77,121,0)');
       ctx.fillStyle = grd;
       ctx.beginPath(); ctx.arc(g.x, g.y, r, 0, Math.PI * 2); ctx.fill();
     } else {
@@ -126,12 +126,12 @@ function tick(now) {
 function fire(x, y, power = 1) {
   if (reduced) power *= .6;
   glows.push({ type: 'flash', x, y, r: 64 * power, life: 280, t: 0 });
-  rings.push({ x, y, r0: 3, r1: 46 * power, life: 420, t: 0, w: 2.2, c: '255,46,77', a: .95 });
-  rings.push({ x, y, r0: 6, r1: 86 * power, life: 700, t: 0, w: 1.2, c: '168,107,118', a: .6 });
+  rings.push({ x, y, r0: 3, r1: 46 * power, life: 420, t: 0, w: 2.2, c: '255,77,121', a: .95 });
+  rings.push({ x, y, r0: 6, r1: 86 * power, life: 700, t: 0, w: 1.2, c: '232,181,157', a: .6 });
   if (!reduced) {
     for (let i = 0; i < 12 * power; i++) {
       const ang = Math.random() * Math.PI * 2, sp = .3 + Math.random() * .55;
-      parts.push({ x, y, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp, g: 0, drag: .9, t: 0, d: 0, life: 1, ttl: 200 + Math.random() * 180, s: 1.8, a: 1, c: i % 3 ? '#FF2E4D' : '#FFD6DD' });
+      parts.push({ x, y, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp, g: 0, drag: .9, t: 0, d: 0, life: 1, ttl: 200 + Math.random() * 180, s: 1.8, a: 1, c: i % 3 ? '#FF4D79' : '#FFD6DD' });
     }
   }
   kick();
